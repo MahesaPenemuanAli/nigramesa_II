@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             TanamanSeeder::class,
             ProdukSeeder::class,
             LiteraturSeeder::class,
+            VideoPembelajaranSeeder::class,
             UlasanSeeder::class,
             PesananSeeder::class,
             DetailPesananSeeder::class,

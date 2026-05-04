@@ -10,4 +10,6 @@ class Tanaman extends Model
     use HasFactory;
     
     protected $table = 'tanamans';
+
+    protected $guarded = [];
 }

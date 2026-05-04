@@ -4,25 +4,35 @@ namespace App\Http\Controllers;
 
 use App\Models\Pesanan;
 use App\Models\DetailPesanan;
-use App\Models\Produk;
+use App\Models\Keranjang;
+use App\Notifications\PesananBerhasil;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class CheckoutController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $item = session('checkout_item');
-
-        if (!$item) {
-            return redirect()->route('katalog')->with('error', 'Tidak ada item untuk di-checkout.');
+        $query = Keranjang::where('user_id', auth()->id())->with('produk');
+        
+        if ($request->has('selected_items') && is_array($request->selected_items)) {
+            $query->whereIn('id', $request->selected_items);
         }
 
-        // Pajak 11% 
-        $pajak = $item['subtotal'] * 0.11;
-        $totalHarga = $item['subtotal'] + $pajak;
+        $keranjangs = $query->get();
 
-        return view('katalog.checkout', compact('item', 'pajak', 'totalHarga'));
+        if ($keranjangs->isEmpty()) {
+            return redirect()->route('keranjang.index')->with('error', 'Tidak ada item untuk di-checkout.');
+        }
+
+        $subtotal = 0;
+        foreach ($keranjangs as $item) {
+            $subtotal += $item->produk->harga * $item->jumlah;
+        }
+        $pajak = $subtotal * 0.11;
+        $totalHarga = $subtotal + $pajak;
+
+        return view('katalog.checkout', compact('keranjangs', 'subtotal', 'pajak', 'totalHarga'));
     }
 
     public function store(Request $request)
@@ -30,21 +40,30 @@ class CheckoutController extends Controller
         $request->validate([
             'alamat_pengiriman' => 'required|string',
             'metode_pembayaran' => 'required|string',
+            'selected_items' => 'nullable|array'
         ]);
 
-        $item = session('checkout_item');
+        $query = Keranjang::where('user_id', auth()->id())->with('produk');
+        if ($request->has('selected_items') && is_array($request->selected_items)) {
+            $query->whereIn('id', $request->selected_items);
+        }
+        $keranjangs = $query->get();
 
-        if (!$item) {
-            return redirect()->route('katalog')->with('error', 'Waktu checkout habis. Silakan ulangi.');
+        if ($keranjangs->isEmpty()) {
+            return redirect()->route('katalog')->with('error', 'Pesanan gagal diproses, item tidak ditemukan.');
         }
 
-        $pajak = $item['subtotal'] * 0.11;
-        $totalHarga = $item['subtotal'] + $pajak;
+        $subtotal = 0;
+        foreach ($keranjangs as $item) {
+            $subtotal += $item->produk->harga * $item->jumlah;
+        }
+        $pajak = $subtotal * 0.11;
+        $totalHarga = $subtotal + $pajak;
 
         DB::beginTransaction();
 
         try {
-            // 1. Simpan Pesanan
+            // 1. Simpan Pesanan Header
             $pesanan = Pesanan::create([
                 'user_id' => auth()->id(),
                 'total_harga' => $totalHarga,
@@ -53,40 +72,44 @@ class CheckoutController extends Controller
                 'alamat_pengiriman' => $request->alamat_pengiriman,
             ]);
 
-            // 2. Simpan Detail Pesanan
-            DetailPesanan::create([
-                'pesanan_id' => $pesanan->id,
-                'produk_id' => $item['produk_id'],
-                'jumlah' => $item['quantity'],
-                'subtotal' => $item['subtotal'],
-            ]);
+            // 2. Simpan Detail Pesanan & Kurangi Stok
+            foreach ($keranjangs as $item) {
+                $produk = $item->produk;
+                
+                if ($produk->stok < $item->jumlah) {
+                    throw new \Exception("Stok {$produk->nama_produk} tidak mencukupi hari ini. Sisa: {$produk->stok}");
+                }
 
-            // 3. Kurangi Stok Produk
-            $produk = Produk::find($item['produk_id']);
-            if ($produk && $produk->stok >= $item['quantity']) {
-                $produk->decrement('stok', $item['quantity']);
-            } else {
-                throw new \Exception('Stok produk tidak mencukupi.');
+                DetailPesanan::create([
+                    'pesanan_id' => $pesanan->id,
+                    'produk_id' => $item->produk_id,
+                    'jumlah' => $item->jumlah,
+                    'subtotal' => $produk->harga * $item->jumlah,
+                ]);
+
+                $produk->decrement('stok', $item->jumlah);
             }
+
+            // 3. Clear isi keranjang user ini (hanya yang dicheckout)
+            $keranjangIds = $keranjangs->pluck('id')->toArray();
+            Keranjang::whereIn('id', $keranjangIds)->delete();
 
             DB::commit();
 
-            // Clear session checkout
-            session()->forget('checkout_item');
+            // 4. Kirim Notifikasi
+            auth()->user()->notify(new PesananBerhasil($pesanan->id, $totalHarga));
 
             return redirect()->route('checkout.success', $pesanan->id);
             
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->back()->with('error', 'Terjadi kesalahan sistem: ' . $e->getMessage());
+            return redirect()->route('keranjang.index')->with('error', 'Gagal: ' . $e->getMessage());
         }
     }
 
     public function success($id)
     {
-        // Pastikan pesanan adalah milik user yang sedang login
         $pesanan = Pesanan::where('id', $id)->where('user_id', auth()->id())->firstOrFail();
-        
         return view('katalog.success', compact('pesanan'));
     }
 }

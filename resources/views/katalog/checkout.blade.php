@@ -1,4 +1,4 @@
-<x-app-layout>
+  <x-app-layout>
     <div class="bg-slate-50 min-h-screen py-10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="mb-8">
@@ -7,6 +7,9 @@
 
             <form action="{{ route('checkout.store') }}" method="POST">
                 @csrf
+                @foreach($keranjangs as $item)
+                    <input type="hidden" name="selected_items[]" value="{{ $item->id }}">
+                @endforeach
                 <div class="flex flex-col lg:flex-row gap-8">
                     <!-- Kiri: Form -->
                     <div class="w-full lg:w-2/3 space-y-6">
@@ -27,12 +30,35 @@
                                 </span>
                                 Detail Pengiriman
                             </h2>
-                            <div>
+                            <div class="mb-6">
                                 <label class="block text-sm font-bold text-gray-700 mb-2">Alamat Lengkap Tujuan</label>
                                 <textarea name="alamat_pengiriman" rows="4" class="w-full rounded-2xl border-gray-200 focus:border-emerald-500 focus:ring-emerald-500 shadow-sm text-sm" placeholder="Tuliskan jalan, nomor rumah, RT/RW, dan patokan agar kurir mudah menemukan alamat Anda..." required>{{ old('alamat_pengiriman', auth()->user()->alamat_lengkap) }}</textarea>
                                 @error('alamat_pengiriman')
                                     <span class="text-sm text-red-500 mt-1 block font-medium">{{ $message }}</span>
                                 @enderror
+                            </div>
+
+                            <!-- Peta Leaflet -->
+                            <div class="mb-6">
+                                <label class="block text-sm font-bold text-gray-700 mb-2">Titik Lokasi Pengiriman (Maps)</label>
+                                <div id="map" class="w-full h-64 rounded-2xl border border-gray-200 shadow-sm z-10 relative"></div>
+                                <p class="text-xs text-gray-500 mt-2">Geser pin atau klik pada peta untuk menentukan koordinat lokasi pengiriman Anda dengan tepat.</p>
+                                <input type="hidden" name="latitude" id="lat" value="{{ old('latitude', '-6.2088') }}">
+                                <input type="hidden" name="longitude" id="lng" value="{{ old('longitude', '106.8456') }}">
+                            </div>
+
+                            <!-- Shipping Options -->
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 mb-2">Pilih Lanyanan Pengiriman</label>
+                                <select name="jasa_pengiriman" class="w-full rounded-2xl border-gray-200 focus:border-emerald-500 focus:ring-emerald-500 shadow-sm text-sm" required>
+                                    <option value="" disabled selected>Pilih Jasa Pengiriman...</option>
+                                    <option value="JNE Reguler">JNE - Reguler</option>
+                                    <option value="JNE Ekspres">JNE - Ekspres</option>
+                                    <option value="J&T Reguler">J&T - Reguler</option>
+                                    <option value="J&T Ekspres">J&T - Ekspres</option>
+                                    <option value="SiCepat Reguler">SiCepat - Reguler</option>
+                                    <option value="SiCepat Best">SiCepat - Best (Ekspres)</option>
+                                </select>
                             </div>
                         </div>
 
@@ -94,20 +120,27 @@
                         <div class="bg-white p-8 rounded-[2rem] shadow-sm border border-gray-100 sticky top-6">
                             <h2 class="text-xl font-bold text-gray-800 mb-6">Ringkasan Pesanan</h2>
                             
-                            <div class="flex items-center gap-4 border-b border-dashed border-gray-200 pb-6 mb-6">
-                                <div class="w-20 h-20 rounded-2xl bg-gray-100 overflow-hidden flex-shrink-0 border border-gray-50">
-                                    <img src="{{ $item['gambar'] ?: 'https://placehold.co/600x400/e2e8f0/475569?text=' . urlencode($item['nama_produk']) }}" class="w-full h-full object-cover" alt="Produk">
+                            <div class="max-h-60 overflow-y-auto pr-2 mb-6 space-y-4">
+                                @foreach($keranjangs as $item)
+                                <div class="flex items-center gap-4 border-b border-dashed border-gray-200 pb-4">
+                                    <div class="w-16 h-16 rounded-xl bg-gray-100 overflow-hidden flex-shrink-0 border border-gray-50">
+                                        <img src="{{ gambar_url($item->produk->gambar, 'https://placehold.co/600x400/e2e8f0/475569?text=' . urlencode($item->produk->nama_produk)) }}" class="w-full h-full object-cover" alt="Produk">
+                                    </div>
+                                    <div class="flex-1">
+                                        <h4 class="font-bold text-gray-800 text-sm leading-snug line-clamp-2">{{ $item->produk->nama_produk }}</h4>
+                                        <div class="text-xs font-semibold text-gray-500 mt-1 flex items-center justify-between">
+                                            <span class="bg-gray-50 px-2 py-0.5 rounded border border-gray-200">Qty: {{ $item->jumlah }}</span>
+                                            <span class="text-emerald-600 font-bold tracking-tight">Rp {{ number_format($item->produk->harga * $item->jumlah, 0, ',', '.') }}</span>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="flex-1">
-                                    <h4 class="font-bold text-gray-800 text-sm leading-snug">{{ $item['nama_produk'] }}</h4>
-                                    <div class="text-sm font-semibold text-gray-500 mt-2 bg-gray-50 px-2 py-1 rounded inline-block">Jumlah: {{ $item['quantity'] }}</div>
-                                </div>
+                                @endforeach
                             </div>
 
                             <div class="space-y-4 text-sm font-medium text-gray-600 border-b border-dashed border-gray-200 pb-6 mb-6">
                                 <div class="flex justify-between items-center">
-                                    <span>Subtotal</span>
-                                    <span class="text-gray-900 font-bold">Rp {{ number_format($item['subtotal'], 0, ',', '.') }}</span>
+                                    <span>Subtotal ({{ collect($keranjangs)->sum('jumlah') }} item)</span>
+                                    <span class="text-gray-900 font-bold">Rp {{ number_format($subtotal, 0, ',', '.') }}</span>
                                 </div>
                                 <div class="flex justify-between items-center">
                                     <span>Pajak Transaksi (11%)</span>
@@ -136,4 +169,37 @@
 
         </div>
     </div>
+
+    <!-- Leaflet JS & CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var latInput = document.getElementById('lat');
+            var lngInput = document.getElementById('lng');
+            var initialLat = latInput.value;
+            var initialLng = lngInput.value;
+
+            var map = L.map('map').setView([initialLat, initialLng], 13);
+            
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '© OpenStreetMap'
+            }).addTo(map);
+
+            var marker = L.marker([initialLat, initialLng], {draggable: true}).addTo(map);
+
+            marker.on('dragend', function(e) {
+                var position = marker.getLatLng();
+                latInput.value = position.lat;
+                lngInput.value = position.lng;
+            });
+            
+            map.on('click', function(e) {
+                marker.setLatLng(e.latlng);
+                latInput.value = e.latlng.lat;
+                lngInput.value = e.latlng.lng;
+            });
+        });
+    </script>
 </x-app-layout>

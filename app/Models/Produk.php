@@ -9,6 +9,8 @@ class Produk extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     public function ulasans()
     {
         return $this->hasMany(Ulasan::class);

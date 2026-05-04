@@ -1,0 +1,21 @@
+<?php
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class ChatWebinar extends Model
+{
+    use HasFactory;
+    protected $guarded = [];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function webinar()
+    {
+        return $this->belongsTo(Webinar::class);
+    }
+}

@@ -22,7 +22,7 @@
                     
                     <!-- Left: Img -->
                     <div class="w-full lg:w-1/2 bg-gray-100 relative group">
-                        <img src="{{ $produk->gambar ?: 'https://placehold.co/600x400/e2e8f0/475569?text=' . urlencode($produk->nama_produk) }}" alt="{{ $produk->nama_produk }}" class="w-full h-full object-cover">
+                        <img src="{{ gambar_url($produk->gambar, 'https://placehold.co/600x400/e2e8f0/475569?text=' . urlencode($produk->nama_produk)) }}" alt="{{ $produk->nama_produk }}" class="w-full h-full object-cover">
                     </div>
 
                     <!-- Right: Info -->
@@ -62,7 +62,7 @@
 
                         <!-- Form Add to Cart / Checkout -->
                         <div class="mt-auto bg-gray-50 border border-gray-100 rounded-3xl p-6 shadow-inner">
-                            <form action="{{ route('katalog.checkout', $produk->id) }}" method="POST" class="flex flex-col sm:flex-row gap-4">
+                            <form action="{{ route('keranjang.tambah', $produk->id) }}" method="POST" class="flex flex-col sm:flex-row gap-4">
                                 @csrf
                                 <div class="w-full sm:w-1/3">
                                     <label class="block text-sm font-bold text-gray-600 mb-2">Jumlah</label>
@@ -76,11 +76,18 @@
                                         </button>
                                     </div>
                                 </div>
-                                <div class="w-full sm:w-2/3 flex items-end">
-                                    <button type="{{ $produk->stok > 0 ? 'submit' : 'button' }}" class="w-full h-14 bg-emerald-600 hover:bg-emerald-700 text-white text-lg font-black rounded-xl shadow-lg shadow-emerald-200 transition-all duration-300 flex items-center justify-center gap-3 {{ $produk->stok == 0 ? 'opacity-50 cursor-not-allowed' : '' }}" {{ $produk->stok == 0 ? 'disabled' : '' }}>
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
-                                        {{ $produk->stok > 0 ? 'Checkout Sekarang' : 'Stok Habis' }}
+                                <div class="w-full sm:w-2/3 flex flex-col sm:flex-row items-end gap-3 z-10 relative">
+                                    <button type="{{ $produk->stok > 0 ? 'submit' : 'button' }}" name="action" value="add_to_cart" class="w-full h-14 bg-emerald-600 hover:bg-emerald-700 text-white text-base lg:text-lg font-black rounded-xl shadow-lg shadow-emerald-200 transition-all duration-300 flex items-center justify-center gap-2 {{ $produk->stok == 0 ? 'opacity-50 cursor-not-allowed' : '' }}" {{ $produk->stok == 0 ? 'disabled' : '' }}>
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                                        {{ $produk->stok > 0 ? 'Keranjang' : 'Stok Habis' }}
                                     </button>
+                                    
+                                    @if($produk->stok > 0)
+                                    <button type="submit" name="action" value="buy_now" class="w-full h-14 bg-gradient-to-r from-amber-400 to-yellow-500 hover:from-amber-500 hover:to-yellow-600 text-gray-900 border border-amber-300 text-base lg:text-lg font-black rounded-xl shadow-lg shadow-amber-200 transition-all duration-300 flex items-center justify-center gap-2">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                                        Beli Sekarang
+                                    </button>
+                                    @endif
                                 </div>
                             </form>
                         </div>

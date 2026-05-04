@@ -24,8 +24,8 @@ class KatalogController extends Controller
         // Dapatkan semua produk unik untuk kategori filter sidebar
         $kategoris = Produk::select('kategori')->distinct()->pluck('kategori');
 
-        // Pagination 9 per halaman
-        $produks = $query->latest()->paginate(9)->withQueryString();
+        // Pagination 12 per halaman
+        $produks = $query->latest()->paginate(12)->withQueryString();
 
         return view('katalog.index', compact('produks', 'kategoris'));
     }

@@ -1,11 +1,22 @@
 <x-app-layout>
     <div class="py-12 bg-slate-50 min-h-screen">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="flex flex-col lg:flex-row gap-8">
+            <div class="flex flex-col lg:flex-row gap-4 lg:gap-8" x-data="{ showMobileFilter: false }">
                 
+                <!-- Tombol Filter Mobile -->
+                <div class="lg:hidden w-full">
+                    <button @click="showMobileFilter = !showMobileFilter" class="w-full flex items-center justify-between bg-white px-5 py-3 rounded-2xl shadow-sm border border-gray-100 font-bold text-gray-800 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                        <span class="flex items-center gap-2">
+                            <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path></svg>
+                            Filter Kategori
+                        </span>
+                        <svg class="w-5 h-5 transition-transform" :class="showMobileFilter ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                </div>
+
                 <!-- Sidebar (1/4 Width) -->
-                <div class="w-full lg:w-1/4">
-                    <div class="bg-white rounded-2xl shadow-sm p-6 sticky top-6 border border-gray-100">
+                <div class="w-full lg:w-1/4" :class="showMobileFilter ? 'block' : 'hidden lg:block'">
+                    <div class="bg-white rounded-2xl shadow-sm p-6 lg:sticky lg:top-6 border border-gray-100">
                         <h3 class="text-lg font-bold text-gray-800 mb-4">Pencarian</h3>
                         <form action="{{ route('katalog') }}" method="GET" class="mb-8">
                             @if(request('kategori'))
@@ -46,21 +57,21 @@
                             <a href="{{ route('katalog') }}" class="inline-block mt-8 px-6 py-2.5 bg-emerald-50 text-emerald-600 font-bold rounded-xl hover:bg-emerald-100 transition-colors">Reset Semua Filter</a>
                         </div>
                     @else
-                        <!-- Grid 3 Kolom -->
-                        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-8">
+                        <!-- Grid 2 Mobile / 4 Desktop Kolom -->
+                        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-8">
                             @foreach($produks as $produk)
                                 <div class="bg-white rounded-2xl shadow-sm border border-gray-50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden group flex flex-col relative">
-                                    <div class="relative aspect-video overflow-hidden bg-gray-100">
-                                        <img src="{{ $produk->gambar ?: 'https://placehold.co/600x400/e2e8f0/475569?text=' . urlencode($produk->nama_produk) }}" alt="{{ $produk->nama_produk }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-                                        <div class="absolute top-3 left-3">
-                                            <span class="px-3 py-1 bg-white/95 backdrop-blur-sm text-xs font-bold text-gray-800 rounded-lg shadow-sm border border-gray-100">
+                                    <div class="relative h-36 lg:h-48 overflow-hidden bg-gray-100">
+                                        <img src="{{ gambar_url($produk->gambar, 'https://placehold.co/600x400/e2e8f0/475569?text=' . urlencode($produk->nama_produk)) }}" alt="{{ $produk->nama_produk }}" class="w-full h-36 lg:h-48 object-cover group-hover:scale-105 transition-transform duration-700">
+                                        <div class="absolute top-2 left-2 lg:top-3 lg:left-3">
+                                            <span class="px-2 lg:px-3 py-1 bg-white/95 backdrop-blur-sm text-[10px] lg:text-xs font-bold text-gray-800 rounded-lg shadow-sm border border-gray-100">
                                                 {{ $produk->kategori }}
                                             </span>
                                         </div>
                                     </div>
-                                    <div class="p-5 flex flex-col flex-1">
-                                        <h3 class="text-lg font-bold text-gray-800 mb-1 leading-snug line-clamp-1 group-hover:text-emerald-600 transition-colors">{{ $produk->nama_produk }}</h3>
-                                        <div class="text-2xl font-black text-emerald-600 mt-2 mb-5">
+                                    <div class="p-3 lg:p-5 flex flex-col flex-1">
+                                        <h3 class="text-sm lg:text-lg font-bold text-gray-800 mb-1 leading-snug line-clamp-2 group-hover:text-emerald-600 transition-colors">{{ $produk->nama_produk }}</h3>
+                                        <div class="text-base lg:text-2xl font-black text-emerald-600 mt-1 lg:mt-2 mb-3 lg:mb-5">
                                             Rp {{ number_format($produk->harga, 0, ',', '.') }}
                                         </div>
                                         <div class="mt-auto">
