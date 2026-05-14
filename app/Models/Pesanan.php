@@ -10,4 +10,9 @@ class Pesanan extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    public function detailPesanans()
+    {
+        return $this->hasMany(DetailPesanan::class);
+    }
 }

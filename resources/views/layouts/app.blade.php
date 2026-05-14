@@ -166,8 +166,7 @@
                     </div>
                 </div>
 
-                <!-- Bubble Notifikasi -->
-                <div x-show="!chatOpen" class="absolute -top-1 -right-1 w-5 h-5 bg-red-500 border-2 border-slate-50 text-white rounded-full flex items-center justify-center text-[9px] font-black z-10 animate-bounce">1</div>
+                <!-- Bubble Notifikasi (Dihapus) -->
 
                 <!-- Tombol Floating Main (FAB) -->
                 <button @click="chatOpen = !chatOpen" 

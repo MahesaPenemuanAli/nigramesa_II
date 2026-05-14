@@ -120,6 +120,10 @@
                         <a href="{{ route('profile.edit') }}" class="block px-4 py-2.5 text-sm font-medium text-gray-700 rounded-2xl hover:bg-emerald-50 hover:text-emerald-700 transition">
                             Profil Saya
                         </a>
+                        <a href="{{ route('riwayat.index') }}" class="flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-gray-700 rounded-2xl hover:bg-emerald-50 hover:text-emerald-700 transition">
+                            <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            Riwayat Saya
+                        </a>
 
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
@@ -201,6 +205,10 @@
             <div class="mt-4 px-3 space-y-1">
                 <a href="{{ route('profile.edit') }}" class="block w-full px-4 py-3 rounded-2xl text-base font-medium text-emerald-100 hover:bg-emerald-800 hover:text-white transition">
                     {{ __('Profil Saya') }}
+                </a>
+                <a href="{{ route('riwayat.index') }}" class="flex items-center gap-2 w-full px-4 py-3 rounded-2xl text-base font-medium text-emerald-100 hover:bg-emerald-800 hover:text-white transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    {{ __('Riwayat Saya') }}
                 </a>
 
                 <!-- Authentication -->

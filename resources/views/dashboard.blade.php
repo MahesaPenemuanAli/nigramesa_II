@@ -124,6 +124,53 @@
                 </div>
             @endif
 
+            <!-- Section Fitur Platform -->
+            <div class="scroll-reveal mb-16">
+                <div class="flex flex-col text-center mb-10">
+                    <h2 class="text-3xl font-black text-emerald-950">Fitur Unggulan Nigramesa</h2>
+                    <p class="text-emerald-700/80 font-medium mt-3 max-w-2xl mx-auto">Platform terintegrasi yang menghadirkan pengalaman revolusioner untuk pengelolaan, pembelajaran, dan transaksi di dunia botani.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Fitur 1 -->
+                    <div class="bg-white rounded-3xl p-6 shadow-sm border border-emerald-50 hover:-translate-y-2 hover:shadow-xl transition-all duration-300 group">
+                        <div class="w-14 h-14 bg-emerald-100/50 rounded-2xl flex items-center justify-center text-emerald-600 mb-6 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-black text-emerald-950 mb-2">E-Commerce Botani</h3>
+                        <p class="text-gray-500 text-sm leading-relaxed">Katalog lengkap bibit unggul, pupuk organik, dan perlengkapan hortikultura kualitas terbaik.</p>
+                    </div>
+
+                    <!-- Fitur 2 -->
+                    <div class="bg-white rounded-3xl p-6 shadow-sm border border-emerald-50 hover:-translate-y-2 hover:shadow-xl transition-all duration-300 group">
+                        <div class="w-14 h-14 bg-emerald-100/50 rounded-2xl flex items-center justify-center text-emerald-600 mb-6 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-black text-emerald-950 mb-2">Pustaka & Edukasi</h3>
+                        <p class="text-gray-500 text-sm leading-relaxed">Akses literatur digital, ensiklopedia tanaman, dan video pembelajaran interaktif secara gratis.</p>
+                    </div>
+
+                    <!-- Fitur 3 -->
+                    <div class="bg-white rounded-3xl p-6 shadow-sm border border-emerald-50 hover:-translate-y-2 hover:shadow-xl transition-all duration-300 group">
+                        <div class="w-14 h-14 bg-emerald-100/50 rounded-2xl flex items-center justify-center text-emerald-600 mb-6 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-black text-emerald-950 mb-2">Jadwal Perawatan</h3>
+                        <p class="text-gray-500 text-sm leading-relaxed">Manajemen log aktivitas dan pengingat otomatis untuk memastikan tanaman tumbuh maksimal.</p>
+                    </div>
+
+                    <!-- Fitur 4 -->
+                    <div class="bg-white rounded-3xl p-6 shadow-sm border border-emerald-50 hover:-translate-y-2 hover:shadow-xl transition-all duration-300 group relative overflow-hidden">
+                        <div class="absolute -right-4 -top-4 w-24 h-24 bg-emerald-500/10 rounded-full blur-2xl"></div>
+                        <div class="w-14 h-14 bg-emerald-100/50 rounded-2xl flex items-center justify-center text-emerald-600 mb-6 group-hover:bg-emerald-600 group-hover:text-white transition-colors relative z-10">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-black text-emerald-950 mb-2 relative z-10 flex items-center gap-2">NigraBot AI <span class="bg-amber-100 text-amber-600 text-[10px] uppercase px-2 py-0.5 rounded-full font-black tracking-widest">New</span></h3>
+                        <p class="text-gray-500 text-sm leading-relaxed relative z-10">Asisten cerdas yang siap menjawab keluhan dan memberikan konsultasi pertanian 24/7.</p>
+                    </div>
+                </div>
+            </div>
+
             <!-- Section 3: Produk Unggulan -->
             <div class="scroll-reveal">
                 <div class="flex items-end justify-between border-b-2 border-emerald-200/60 pb-5 mb-8">

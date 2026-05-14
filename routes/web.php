@@ -22,6 +22,7 @@ Route::middleware("auth")->group(function () {
     Route::delete("/profile", [ProfileController::class, "destroy"])->name(
         "profile.destroy",
     );
+    Route::get("/profil/riwayat", [App\Http\Controllers\RiwayatController::class, "index"])->name("riwayat.index");
 });
 
 require __DIR__ . "/auth.php";

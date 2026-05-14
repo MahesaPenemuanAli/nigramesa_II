@@ -27,7 +27,7 @@ class VideoPembelajaranResource extends Resource
 
     protected static ?string $pluralModelLabel = "Video Pembelajaran";
 
-    protected static UnitEnum|string|null $navigationGroup = "Konten Edukasi";
+    // protected static UnitEnum|string|null $navigationGroup = "Konten Edukasi";
 
     protected static ?int $navigationSort = 1;
 

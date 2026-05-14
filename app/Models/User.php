@@ -46,4 +46,9 @@ class User extends Authenticatable implements FilamentUser
     {
         return $this->hasMany(Keranjang::class);
     }
+
+    public function pesanans()
+    {
+        return $this->hasMany(Pesanan::class);
+    }
 }
