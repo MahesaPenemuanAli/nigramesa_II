@@ -27,6 +27,14 @@ Route::middleware("auth")->group(function () {
 
 require __DIR__ . "/auth.php";
 
+// Admin demo routes (UI preview only)
+Route::prefix('admin-demo')->group(function(){
+    Route::view('/dashboard','admin.dashboard');
+    Route::view('/products','admin.products');
+    Route::view('/orders','admin.orders');
+    Route::view('/payments','admin.payments');
+});
+
 // Chatbot Route (dapat diakses tanpa login di semua halaman)
 Route::post("/chatbot/respond", [
     App\Http\Controllers\ChatbotController::class,
