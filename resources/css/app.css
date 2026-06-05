@@ -1,6 +1,5 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@config "../../tailwind.config.js";
 
 :root {
     --primary: #0F5132;
@@ -43,7 +42,7 @@
 }
 
 .checkout-title p,
-.success-card > p {
+.success-card>p {
     margin: 8px 0 0;
     color: var(--muted);
     line-height: 1.7;
@@ -185,7 +184,7 @@
     transition: border 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
 }
 
-.payment-option input:checked + .payment-option__box {
+.payment-option input:checked+.payment-option__box {
     border-color: var(--secondary);
     background: #E7F4EC;
     box-shadow: 0 0 0 4px rgba(25, 135, 84, 0.1);
@@ -198,7 +197,7 @@
 }
 
 .payment-option span span,
-.payment-option__box > span {
+.payment-option__box>span {
     display: block;
     margin-top: 6px;
     color: var(--muted);
