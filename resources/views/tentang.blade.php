@@ -37,7 +37,7 @@
                                 Visi Jauh Ke Depan
                             </h2>
                             <p class="text-lg md:text-xl text-gray-600 leading-relaxed font-medium">
-                                Menjadi platform sentral yang menjembatani *agrikultur literasi* dan pasar dagang digital, memberdayakan masyarakat modern untuk menumbuhkan kehidupan terkurasi secara cerdas, estetik, serta berkelanjutan.
+                                Menjadi platform terbaik sentral yang menjembatani *agrikultur literasi* dan pasar dagang digital, memberdayakan masyarakat modern untuk menumbuhkan kehidupan terkurasi secara cerdas, estetik, serta berkelanjutan.
                             </p>
                         </div>
                         
