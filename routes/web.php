@@ -118,4 +118,18 @@ Route::middleware(["auth", "verified"])->group(function () {
     ])->name("perpustakaan.show");
 
     Route::view("/tentang", "tentang")->name("tentang");
+    // ===== REVIEW ROUTES =====
+    Route::get("/review/{pesanan_id}/{produk_id}", [
+        App\Http\Controllers\ReviewController::class,
+        "create",
+    ])->name("review.create");
+    Route::post("/review", [
+        App\Http\Controllers\ReviewController::class,
+        "store",
+    ])->name("review.store");
+    Route::get("/produk/{produk_id}/reviews", [
+        App\Http\Controllers\ReviewController::class,
+        "indexProduk",
+    ])->name("review.produk");
+    // =========================
 });
