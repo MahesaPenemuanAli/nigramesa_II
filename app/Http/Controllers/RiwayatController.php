@@ -9,7 +9,11 @@ class RiwayatController extends Controller
 {
     public function index()
     {
-        $pesanans = auth()->user()->pesanans()->with(['detailPesanans.produk'])->latest()->get();
+        $pesanans = auth()->user()
+            ->pesanans()
+            ->with(['detailPesanans.produk', 'reviews'])
+            ->latest()
+            ->get();
 
         return view('profil.riwayat', compact('pesanans'));
     }

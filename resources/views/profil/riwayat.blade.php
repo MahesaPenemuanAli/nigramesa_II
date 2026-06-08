@@ -13,6 +13,18 @@
                     <p class="text-sm text-gray-500 mt-2">Pantau status pesanan dan aktivitas edukasi Anda di sini.</p>
                 </div>
 
+                @if(session('success'))
+                    <div class="mb-6 rounded-2xl border border-emerald-200 bg-emerald-50 px-5 py-4 text-sm font-semibold text-emerald-700">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+                @if(session('error'))
+                    <div class="mb-6 rounded-2xl border border-red-200 bg-red-50 px-5 py-4 text-sm font-semibold text-red-700">
+                        {{ session('error') }}
+                    </div>
+                @endif
+
                 <div class="space-y-6">
                     @forelse($pesanans as $pesanan)
                         <div class="bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-300 p-6 flex flex-col md:flex-row gap-6">
@@ -77,6 +89,32 @@
                                         </span>
                                     </div>
                                 </div>
+
+                                @if($status === 'selesai')
+                                    <div class="mt-5 pt-5 border-t border-gray-100">
+                                        <p class="text-xs font-bold uppercase tracking-wider text-gray-500 mb-3">Review Barang</p>
+                                        <div class="flex flex-wrap gap-3">
+                                            @foreach($pesanan->detailPesanans as $detail)
+                                                @php
+                                                    $detailProduk = $detail->produk;
+                                                    $existingReview = $pesanan->reviews->firstWhere('produk_id', $detail->produk_id);
+                                                @endphp
+
+                                                @if($detailProduk)
+                                                    @if($existingReview)
+                                                        <span class="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-4 py-2 text-sm font-semibold text-emerald-700">
+                                                            {{ $detailProduk->nama_produk }} sudah direview
+                                                        </span>
+                                                    @else
+                                                        <a href="{{ route('review.create', [$pesanan->id, $detailProduk->id]) }}" class="inline-flex items-center gap-2 rounded-full bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors duration-200 hover:bg-emerald-700">
+                                                            Review {{ $detailProduk->nama_produk }}
+                                                        </a>
+                                                    @endif
+                                                @endif
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     @empty

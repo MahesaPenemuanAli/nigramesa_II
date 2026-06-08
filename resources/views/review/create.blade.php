@@ -1,465 +1,544 @@
-@extends('layouts.app')
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Tulis Review') }}
+        </h2>
+    </x-slot>
 
-@section('title', 'Tulis Review')
+    <style>
+        .review-page {
+            min-height: calc(100vh - 96px);
+            background: #f8fafc;
+            padding: 48px 16px;
+        }
 
-@push('styles')
-<style>
-    /* ===== REVIEW FORM STYLES ===== */
-    .review-wrapper {
-        max-width: 680px;
-        margin: 2.5rem auto;
-        padding: 0 1rem;
-        font-family: 'Plus Jakarta Sans', 'Segoe UI', sans-serif;
-    }
+        .review-shell {
+            max-width: 760px;
+            margin: 0 auto;
+        }
 
-    .review-card {
-        background: #fff;
-        border-radius: 20px;
-        box-shadow: 0 4px 30px rgba(0,0,0,0.08);
-        overflow: hidden;
-    }
+        .review-card {
+            overflow: hidden;
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 18px;
+            box-shadow: 0 22px 45px rgba(15, 23, 42, .08);
+        }
 
-    /* Header produk */
-    .review-header {
-        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%);
-        padding: 2rem;
-        color: #fff;
-        display: flex;
-        align-items: center;
-        gap: 1.25rem;
-    }
-    .review-header img {
-        width: 72px;
-        height: 72px;
-        object-fit: cover;
-        border-radius: 12px;
-        border: 2px solid rgba(255,255,255,0.2);
-    }
-    .review-header .produk-nama {
-        font-size: 1.1rem;
-        font-weight: 700;
-        margin: 0 0 .25rem;
-    }
-    .review-header .pesanan-info {
-        font-size: .82rem;
-        color: rgba(255,255,255,.6);
-    }
+        .review-header {
+            display: grid;
+            grid-template-columns: 92px 1fr;
+            gap: 20px;
+            align-items: center;
+            padding: 28px;
+            color: #fff;
+            background: linear-gradient(135deg, #065f46 0%, #064e3b 55%, #0f172a 100%);
+        }
 
-    /* Body */
-    .review-body {
-        padding: 2rem;
-    }
+        .review-product-image {
+            width: 92px;
+            height: 92px;
+            border-radius: 16px;
+            object-fit: cover;
+            background: #ecfdf5;
+            border: 2px solid rgba(255, 255, 255, .28);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, .18);
+        }
 
-    /* Star rating */
-    .star-section label {
-        display: block;
-        font-weight: 600;
-        font-size: .9rem;
-        color: #374151;
-        margin-bottom: .75rem;
-    }
-    .star-group {
-        display: flex;
-        flex-direction: row-reverse;
-        gap: .35rem;
-        width: fit-content;
-    }
-    .star-group input[type="radio"] {
-        display: none;
-    }
-    .star-group label {
-        font-size: 2.4rem;
-        color: #d1d5db;
-        cursor: pointer;
-        transition: color .15s, transform .15s;
-        margin: 0;
-        line-height: 1;
-    }
-    .star-group label:hover,
-    .star-group label:hover ~ label,
-    .star-group input:checked ~ label {
-        color: #f59e0b;
-        transform: scale(1.1);
-    }
-    .rating-text {
-        margin-top: .5rem;
-        font-size: .82rem;
-        color: #6b7280;
-        min-height: 1.2em;
-    }
+        .review-kicker {
+            margin: 0 0 8px;
+            color: #a7f3d0;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+        }
 
-    /* Divider */
-    .form-divider {
-        border: none;
-        border-top: 1px solid #f3f4f6;
-        margin: 1.5rem 0;
-    }
+        .review-title {
+            margin: 0;
+            color: #fff;
+            font-size: 24px;
+            font-weight: 900;
+            line-height: 1.2;
+        }
 
-    /* Komentar */
-    .form-group label {
-        display: block;
-        font-weight: 600;
-        font-size: .9rem;
-        color: #374151;
-        margin-bottom: .5rem;
-    }
-    .form-group textarea {
-        width: 100%;
-        border: 1.5px solid #e5e7eb;
-        border-radius: 12px;
-        padding: .875rem 1rem;
-        font-size: .92rem;
-        color: #111827;
-        resize: vertical;
-        min-height: 120px;
-        transition: border-color .2s;
-        outline: none;
-        box-sizing: border-box;
-    }
-    .form-group textarea:focus {
-        border-color: #0f3460;
-        box-shadow: 0 0 0 3px rgba(15,52,96,.08);
-    }
-    .char-count {
-        font-size: .78rem;
-        color: #9ca3af;
-        text-align: right;
-        margin-top: .3rem;
-    }
+        .review-meta {
+            margin: 8px 0 0;
+            color: rgba(255, 255, 255, .78);
+            font-size: 14px;
+            font-weight: 600;
+        }
 
-    /* Upload foto */
-    .foto-label {
-        display: flex;
-        align-items: center;
-        gap: .5rem;
-        font-weight: 600;
-        font-size: .9rem;
-        color: #374151;
-        margin-bottom: .75rem;
-    }
-    .foto-hint {
-        font-size: .78rem;
-        color: #9ca3af;
-        font-weight: 400;
-    }
-    .foto-upload-area {
-        border: 2px dashed #d1d5db;
-        border-radius: 14px;
-        padding: 1.75rem;
-        text-align: center;
-        cursor: pointer;
-        transition: border-color .2s, background .2s;
-        position: relative;
-    }
-    .foto-upload-area:hover {
-        border-color: #0f3460;
-        background: #f8faff;
-    }
-    .foto-upload-area input[type="file"] {
-        position: absolute;
-        inset: 0;
-        opacity: 0;
-        cursor: pointer;
-        width: 100%;
-        height: 100%;
-    }
-    .foto-upload-area .upload-icon {
-        font-size: 2rem;
-        margin-bottom: .5rem;
-        display: block;
-    }
-    .foto-upload-area p {
-        margin: 0;
-        font-size: .85rem;
-        color: #6b7280;
-    }
-    .foto-upload-area .upload-cta {
-        color: #0f3460;
-        font-weight: 600;
-    }
+        .review-body {
+            padding: 32px;
+        }
 
-    /* Preview foto */
-    #foto-preview {
-        display: flex;
-        flex-wrap: wrap;
-        gap: .6rem;
-        margin-top: 1rem;
-    }
-    .preview-item {
-        position: relative;
-        width: 80px;
-        height: 80px;
-        border-radius: 10px;
-        overflow: hidden;
-        box-shadow: 0 2px 8px rgba(0,0,0,.12);
-    }
-    .preview-item img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-    .preview-item .remove-foto {
-        position: absolute;
-        top: 3px;
-        right: 3px;
-        background: rgba(0,0,0,.55);
-        color: #fff;
-        border: none;
-        border-radius: 50%;
-        width: 20px;
-        height: 20px;
-        font-size: .7rem;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        line-height: 1;
-    }
+        .review-section {
+            padding: 0 0 28px;
+            margin: 0 0 28px;
+            border-bottom: 1px solid #eef2f7;
+        }
 
-    /* Submit */
-    .btn-submit {
-        width: 100%;
-        padding: 1rem;
-        background: linear-gradient(135deg, #0f3460, #1a1a2e);
-        color: #fff;
-        border: none;
-        border-radius: 14px;
-        font-size: 1rem;
-        font-weight: 700;
-        cursor: pointer;
-        transition: opacity .2s, transform .15s;
-        margin-top: 1.5rem;
-        letter-spacing: .3px;
-    }
-    .btn-submit:hover {
-        opacity: .9;
-        transform: translateY(-1px);
-    }
-    .btn-submit:active {
-        transform: translateY(0);
-    }
+        .review-section:last-child {
+            padding-bottom: 0;
+            margin-bottom: 0;
+            border-bottom: 0;
+        }
 
-    /* Already reviewed banner */
-    .already-reviewed {
-        background: #f0fdf4;
-        border: 1.5px solid #bbf7d0;
-        border-radius: 14px;
-        padding: 1.25rem 1.5rem;
-        display: flex;
-        align-items: center;
-        gap: .75rem;
-        color: #166534;
-        font-size: .9rem;
-        font-weight: 500;
-    }
-    .already-reviewed span.icon { font-size: 1.4rem; }
+        .review-label-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
 
-    /* Alert */
-    .alert-error {
-        background: #fef2f2;
-        border: 1.5px solid #fecaca;
-        color: #991b1b;
-        border-radius: 12px;
-        padding: .875rem 1.25rem;
-        font-size: .875rem;
-        margin-bottom: 1.25rem;
-    }
+        .review-label {
+            color: #111827;
+            font-size: 15px;
+            font-weight: 800;
+        }
 
-    @media (max-width: 480px) {
-        .review-header { padding: 1.5rem; }
-        .review-body { padding: 1.5rem; }
-        .star-group label { font-size: 2rem; }
-    }
-</style>
-@endpush
+        .review-required {
+            color: #ef4444;
+        }
 
-@section('content')
-<div class="review-wrapper">
+        .review-hint {
+            color: #94a3b8;
+            font-size: 13px;
+            font-weight: 600;
+        }
 
-    {{-- Header produk --}}
-    <div class="review-card">
-        <div class="review-header">
-            @if($detailPesanan->produk->foto ?? null)
-                <img src="{{ asset('storage/' . $detailPesanan->produk->foto) }}" alt="{{ $detailPesanan->produk->nama }}">
-            @else
-                <img src="https://ui-avatars.com/api/?name={{ urlencode($detailPesanan->produk->nama) }}&background=0f3460&color=fff&size=72" alt="">
-            @endif
-            <div>
-                <p class="produk-nama">{{ $detailPesanan->produk->nama }}</p>
-                <p class="pesanan-info">Pesanan #{{ $pesanan->id }} &nbsp;·&nbsp; {{ $pesanan->created_at->format('d M Y') }}</p>
-            </div>
-        </div>
+        .star-group {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: flex-end;
+            gap: 6px;
+            width: fit-content;
+        }
 
-        <div class="review-body">
+        .star-group input {
+            display: none;
+        }
 
-            @if(session('error'))
-                <div class="alert-error">{{ session('error') }}</div>
-            @endif
+        .star-group label {
+            margin: 0;
+            color: #cbd5e1;
+            cursor: pointer;
+            font-size: 42px;
+            line-height: 1;
+            transition: color .15s ease, transform .15s ease;
+        }
 
-            {{-- Jika sudah pernah review --}}
-            @if($existingReview)
-                <div class="already-reviewed">
-                    <span class="icon">✅</span>
+        .star-group label:hover,
+        .star-group label:hover ~ label,
+        .star-group input:checked ~ label {
+            color: #f59e0b;
+            transform: translateY(-1px);
+        }
+
+        .rating-text {
+            min-height: 22px;
+            margin: 10px 0 0;
+            color: #047857;
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        .review-textarea {
+            display: block;
+            width: 100%;
+            min-height: 138px;
+            resize: vertical;
+            border: 1px solid #dbe3ef;
+            border-radius: 16px;
+            padding: 16px 18px;
+            color: #111827;
+            font-size: 15px;
+            line-height: 1.7;
+            outline: none;
+            transition: border-color .15s ease, box-shadow .15s ease;
+        }
+
+        .review-textarea:focus {
+            border-color: #10b981;
+            box-shadow: 0 0 0 4px rgba(16, 185, 129, .12);
+        }
+
+        .char-count {
+            margin-top: 8px;
+            color: #94a3b8;
+            font-size: 12px;
+            font-weight: 700;
+            text-align: right;
+        }
+
+        .foto-upload-area {
+            position: relative;
+            display: grid;
+            place-items: center;
+            min-height: 150px;
+            border: 2px dashed #cbd5e1;
+            border-radius: 18px;
+            background: #f8fafc;
+            cursor: pointer;
+            text-align: center;
+            transition: border-color .15s ease, background .15s ease;
+        }
+
+        .foto-upload-area:hover,
+        .foto-upload-area.is-dragging {
+            border-color: #10b981;
+            background: #ecfdf5;
+        }
+
+        .foto-upload-area input {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .upload-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            margin-bottom: 10px;
+            border-radius: 14px;
+            background: #d1fae5;
+            color: #047857;
+        }
+
+        .upload-title {
+            margin: 0;
+            color: #0f172a;
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        .upload-subtitle {
+            margin: 4px 0 0;
+            color: #64748b;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        #foto-preview {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(88px, 1fr));
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .preview-item {
+            position: relative;
+            aspect-ratio: 1;
+            overflow: hidden;
+            border-radius: 14px;
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+        }
+
+        .preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .remove-foto {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            border: 0;
+            border-radius: 999px;
+            background: rgba(15, 23, 42, .76);
+            color: #fff;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 900;
+        }
+
+        .btn-submit {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            min-height: 52px;
+            border: 0;
+            border-radius: 16px;
+            background: #059669;
+            color: #fff;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 900;
+            letter-spacing: .01em;
+            box-shadow: 0 12px 24px rgba(5, 150, 105, .22);
+            transition: background .15s ease, transform .15s ease, box-shadow .15s ease;
+        }
+
+        .btn-submit:hover {
+            background: #047857;
+            transform: translateY(-1px);
+            box-shadow: 0 16px 30px rgba(5, 150, 105, .28);
+        }
+
+        .already-reviewed,
+        .alert-error {
+            border-radius: 16px;
+            padding: 16px 18px;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .already-reviewed {
+            border: 1px solid #bbf7d0;
+            background: #f0fdf4;
+            color: #166534;
+        }
+
+        .alert-error {
+            margin-bottom: 20px;
+            border: 1px solid #fecaca;
+            background: #fef2f2;
+            color: #991b1b;
+        }
+
+        .field-error {
+            margin: 8px 0 0;
+            color: #ef4444;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        @media (max-width: 640px) {
+            .review-page {
+                padding: 24px 12px;
+            }
+
+            .review-header {
+                grid-template-columns: 72px 1fr;
+                gap: 14px;
+                padding: 20px;
+            }
+
+            .review-product-image {
+                width: 72px;
+                height: 72px;
+                border-radius: 14px;
+            }
+
+            .review-title {
+                font-size: 20px;
+            }
+
+            .review-body {
+                padding: 22px;
+            }
+
+            .star-group label {
+                font-size: 34px;
+            }
+        }
+    </style>
+
+    <div class="review-page">
+        <div class="review-shell">
+            <div class="review-card">
+                @php
+                    $produk = $detailPesanan->produk;
+                    $fallbackImage = 'https://ui-avatars.com/api/?name=' . urlencode($produk->nama_produk) . '&background=ecfdf5&color=047857&bold=true&size=128';
+                @endphp
+
+                <div class="review-header">
+                    <img
+                        src="{{ gambar_url($produk->gambar, $fallbackImage) }}"
+                        alt="{{ $produk->nama_produk }}"
+                        class="review-product-image"
+                    >
                     <div>
-                        Anda sudah memberikan review untuk produk ini.
-                        Rating: <strong>{{ $existingReview->rating }}/5 ⭐</strong>
+                        <p class="review-kicker">Review produk</p>
+                        <h3 class="review-title">{{ $produk->nama_produk }}</h3>
+                        <p class="review-meta">Pesanan #{{ $pesanan->id }} · {{ $pesanan->created_at->format('d M Y') }}</p>
                     </div>
                 </div>
 
-            @else
-                {{-- Form review --}}
-                <form action="{{ route('review.store') }}" method="POST" enctype="multipart/form-data" id="reviewForm">
-                    @csrf
-                    <input type="hidden" name="pesanan_id" value="{{ $pesanan->id }}">
-                    <input type="hidden" name="produk_id" value="{{ $detailPesanan->produk_id }}">
+                <div class="review-body">
+                    @if(session('error'))
+                        <div class="alert-error">{{ session('error') }}</div>
+                    @endif
 
-                    {{-- Rating bintang --}}
-                    <div class="star-section">
-                        <label>Beri Penilaian <span style="color:#ef4444">*</span></label>
-                        <div class="star-group">
-                            @for($i = 5; $i >= 1; $i--)
-                                <input type="radio" name="rating" id="star{{ $i }}" value="{{ $i }}"
-                                    {{ old('rating') == $i ? 'checked' : '' }} required>
-                                <label for="star{{ $i }}" title="{{ $i }} bintang">★</label>
-                            @endfor
+                    @if($existingReview)
+                        <div class="already-reviewed">
+                            Anda sudah memberikan review untuk produk ini. Rating: <strong>{{ $existingReview->rating }}/5</strong>
                         </div>
-                        <p class="rating-text" id="ratingText"></p>
-                        @error('rating')
-                            <p style="color:#ef4444;font-size:.82rem;margin-top:.25rem;">{{ $message }}</p>
-                        @enderror
-                    </div>
+                    @else
+                        <form action="{{ route('review.store') }}" method="POST" enctype="multipart/form-data" id="reviewForm">
+                            @csrf
+                            <input type="hidden" name="pesanan_id" value="{{ $pesanan->id }}">
+                            <input type="hidden" name="produk_id" value="{{ $detailPesanan->produk_id }}">
 
-                    <hr class="form-divider">
+                            <section class="review-section">
+                                <div class="review-label-row">
+                                    <label class="review-label">Beri Penilaian <span class="review-required">*</span></label>
+                                </div>
 
-                    {{-- Komentar --}}
-                    <div class="form-group">
-                        <label for="komentar">Tulis Ulasan <span style="color:#9ca3af;font-weight:400">(opsional)</span></label>
-                        <textarea name="komentar" id="komentar" maxlength="1000"
-                            placeholder="Bagaimana pengalaman Anda dengan produk ini? Ceritakan kualitas, ukuran, atau hal lainnya...">{{ old('komentar') }}</textarea>
-                        <p class="char-count"><span id="charCount">0</span>/1000</p>
-                        @error('komentar')
-                            <p style="color:#ef4444;font-size:.82rem;">{{ $message }}</p>
-                        @enderror
-                    </div>
+                                <div class="star-group" aria-label="Rating produk">
+                                    @for($i = 5; $i >= 1; $i--)
+                                        <input type="radio" name="rating" id="star{{ $i }}" value="{{ $i }}" {{ old('rating') == $i ? 'checked' : '' }} required>
+                                        <label for="star{{ $i }}" title="{{ $i }} bintang">&#9733;</label>
+                                    @endfor
+                                </div>
+                                <p class="rating-text" id="ratingText"></p>
+                                @error('rating')
+                                    <p class="field-error">{{ $message }}</p>
+                                @enderror
+                            </section>
 
-                    <hr class="form-divider">
+                            <section class="review-section">
+                                <div class="review-label-row">
+                                    <label for="komentar" class="review-label">Tulis Ulasan</label>
+                                    <span class="review-hint">opsional</span>
+                                </div>
+                                <textarea
+                                    name="komentar"
+                                    id="komentar"
+                                    maxlength="1000"
+                                    class="review-textarea"
+                                    placeholder="Bagaimana pengalaman Anda dengan produk ini? Ceritakan kualitas, ukuran, atau hal lainnya..."
+                                >{{ old('komentar') }}</textarea>
+                                <p class="char-count"><span id="charCount">0</span>/1000</p>
+                                @error('komentar')
+                                    <p class="field-error">{{ $message }}</p>
+                                @enderror
+                            </section>
 
-                    {{-- Upload foto --}}
-                    <div class="form-group">
-                        <div class="foto-label">
-                            📷 Tambah Foto
-                            <span class="foto-hint">(maks. 5 foto, jpg/png/webp, 2MB)</span>
-                        </div>
-                        <div class="foto-upload-area" id="uploadArea">
-                            <input type="file" name="foto[]" id="fotoInput"
-                                accept="image/jpeg,image/png,image/webp" multiple>
-                            <span class="upload-icon">🖼️</span>
-                            <p><span class="upload-cta">Pilih foto</span> atau seret ke sini</p>
-                            <p style="margin-top:.25rem;font-size:.78rem;color:#d1d5db">JPG, PNG, WEBP hingga 2MB</p>
-                        </div>
-                        <div id="foto-preview"></div>
-                        @error('foto.*')
-                            <p style="color:#ef4444;font-size:.82rem;margin-top:.4rem;">{{ $message }}</p>
-                        @enderror
-                    </div>
+                            <section class="review-section">
+                                <div class="review-label-row">
+                                    <label class="review-label">Tambah Foto</label>
+                                    <span class="review-hint">maks. 5 foto, JPG/PNG/WEBP, 2MB</span>
+                                </div>
+                                <div class="foto-upload-area" id="uploadArea">
+                                    <input type="file" name="foto[]" id="fotoInput" accept="image/jpeg,image/png,image/webp" multiple>
+                                    <div>
+                                        <span class="upload-icon">
+                                            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4-4a2 2 0 012.8 0l1.2 1.2 2.2-2.2a2 2 0 012.8 0l3 3M4 6h16v12H4zM8 8h.01"/>
+                                            </svg>
+                                        </span>
+                                        <p class="upload-title">Pilih foto atau seret ke sini</p>
+                                        <p class="upload-subtitle">Foto membantu pembeli lain melihat kondisi produk.</p>
+                                    </div>
+                                </div>
+                                <div id="foto-preview"></div>
+                                @error('foto.*')
+                                    <p class="field-error">{{ $message }}</p>
+                                @enderror
+                            </section>
 
-                    <button type="submit" class="btn-submit" id="submitBtn">
-                        ✨ Kirim Review
-                    </button>
-                </form>
-            @endif
-
+                            <button type="submit" class="btn-submit" id="submitBtn">
+                                Kirim Review
+                            </button>
+                        </form>
+                    @endif
+                </div>
+            </div>
         </div>
     </div>
 
-</div>
-@endsection
+    <script>
+        const ratingLabels = {
+            1: 'Sangat buruk',
+            2: 'Kurang memuaskan',
+            3: 'Cukup',
+            4: 'Bagus',
+            5: 'Luar biasa'
+        };
 
-@push('scripts')
-<script>
-    // Label teks rating
-    const ratingLabels = {
-        1: '😞 Sangat Buruk',
-        2: '😕 Kurang Memuaskan',
-        3: '😐 Cukup',
-        4: '😊 Bagus',
-        5: '🤩 Luar Biasa!'
-    };
-    document.querySelectorAll('.star-group input').forEach(input => {
-        input.addEventListener('change', function () {
-            document.getElementById('ratingText').textContent = ratingLabels[this.value] || '';
-        });
-    });
+        document.querySelectorAll('.star-group input').forEach(input => {
+            input.addEventListener('change', function () {
+                const ratingText = document.getElementById('ratingText');
+                if (ratingText) ratingText.textContent = ratingLabels[this.value] || '';
+            });
 
-    // Hitung karakter komentar
-    const textarea = document.getElementById('komentar');
-    const charCount = document.getElementById('charCount');
-    if (textarea) {
-        textarea.addEventListener('input', function () {
-            charCount.textContent = this.value.length;
-        });
-    }
-
-    // Preview foto
-    const fotoInput = document.getElementById('fotoInput');
-    const previewContainer = document.getElementById('foto-preview');
-    let selectedFiles = [];
-
-    if (fotoInput) {
-        fotoInput.addEventListener('change', function () {
-            const newFiles = Array.from(this.files);
-            const combined = [...selectedFiles, ...newFiles].slice(0, 5);
-            selectedFiles = combined;
-            renderPreviews();
-        });
-    }
-
-    function renderPreviews() {
-        previewContainer.innerHTML = '';
-        selectedFiles.forEach((file, idx) => {
-            const reader = new FileReader();
-            reader.onload = e => {
-                const item = document.createElement('div');
-                item.className = 'preview-item';
-                item.innerHTML = `
-                    <img src="${e.target.result}" alt="foto ${idx+1}">
-                    <button type="button" class="remove-foto" data-idx="${idx}">✕</button>
-                `;
-                item.querySelector('.remove-foto').addEventListener('click', function () {
-                    selectedFiles.splice(parseInt(this.dataset.idx), 1);
-                    renderPreviews();
-                });
-                previewContainer.appendChild(item);
-            };
-            reader.readAsDataURL(file);
+            if (input.checked) {
+                const ratingText = document.getElementById('ratingText');
+                if (ratingText) ratingText.textContent = ratingLabels[input.value] || '';
+            }
         });
 
-        // Sync files ke input (buat DataTransfer baru)
-        const dt = new DataTransfer();
-        selectedFiles.forEach(f => dt.items.add(f));
-        fotoInput.files = dt.files;
-    }
+        const textarea = document.getElementById('komentar');
+        const charCount = document.getElementById('charCount');
+        if (textarea && charCount) {
+            charCount.textContent = textarea.value.length;
+            textarea.addEventListener('input', function () {
+                charCount.textContent = this.value.length;
+            });
+        }
 
-    // Drag & drop
-    const uploadArea = document.getElementById('uploadArea');
-    if (uploadArea) {
-        uploadArea.addEventListener('dragover', e => {
-            e.preventDefault();
-            uploadArea.style.borderColor = '#0f3460';
-            uploadArea.style.background = '#f0f4ff';
-        });
-        uploadArea.addEventListener('dragleave', () => {
-            uploadArea.style.borderColor = '#d1d5db';
-            uploadArea.style.background = '';
-        });
-        uploadArea.addEventListener('drop', e => {
-            e.preventDefault();
-            uploadArea.style.borderColor = '#d1d5db';
-            uploadArea.style.background = '';
-            const dropped = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
-            selectedFiles = [...selectedFiles, ...dropped].slice(0, 5);
-            renderPreviews();
-        });
-    }
-</script>
-@endpush
+        const fotoInput = document.getElementById('fotoInput');
+        const previewContainer = document.getElementById('foto-preview');
+        const uploadArea = document.getElementById('uploadArea');
+        let selectedFiles = [];
+
+        if (fotoInput && previewContainer) {
+            fotoInput.addEventListener('change', function () {
+                selectedFiles = [...selectedFiles, ...Array.from(this.files)].slice(0, 5);
+                renderPreviews();
+            });
+        }
+
+        function renderPreviews() {
+            previewContainer.innerHTML = '';
+
+            selectedFiles.forEach((file, idx) => {
+                const reader = new FileReader();
+                reader.onload = e => {
+                    const item = document.createElement('div');
+                    item.className = 'preview-item';
+                    item.innerHTML = `
+                        <img src="${e.target.result}" alt="Foto review ${idx + 1}">
+                        <button type="button" class="remove-foto" data-idx="${idx}" aria-label="Hapus foto">&times;</button>
+                    `;
+                    item.querySelector('.remove-foto').addEventListener('click', function () {
+                        selectedFiles.splice(parseInt(this.dataset.idx), 1);
+                        renderPreviews();
+                    });
+                    previewContainer.appendChild(item);
+                };
+                reader.readAsDataURL(file);
+            });
+
+            const dataTransfer = new DataTransfer();
+            selectedFiles.forEach(file => dataTransfer.items.add(file));
+            fotoInput.files = dataTransfer.files;
+        }
+
+        if (uploadArea) {
+            uploadArea.addEventListener('dragover', event => {
+                event.preventDefault();
+                uploadArea.classList.add('is-dragging');
+            });
+
+            uploadArea.addEventListener('dragleave', () => {
+                uploadArea.classList.remove('is-dragging');
+            });
+
+            uploadArea.addEventListener('drop', event => {
+                event.preventDefault();
+                uploadArea.classList.remove('is-dragging');
+                const dropped = Array.from(event.dataTransfer.files).filter(file => file.type.startsWith('image/'));
+                selectedFiles = [...selectedFiles, ...dropped].slice(0, 5);
+                renderPreviews();
+            });
+        }
+    </script>
+</x-app-layout>

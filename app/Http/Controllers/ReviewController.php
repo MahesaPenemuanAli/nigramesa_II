@@ -6,7 +6,6 @@ use App\Models\Review;
 use App\Models\Pesanan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 
 class ReviewController extends Controller
 {
@@ -21,7 +20,7 @@ class ReviewController extends Controller
             ->firstOrFail();
 
         // Cek apakah pesanan sudah selesai
-        if ($pesanan->status !== 'selesai') {
+        if (strtolower($pesanan->status_pesanan) !== 'selesai') {
             return redirect()->back()->with('error', 'Pesanan belum selesai, belum bisa direview.');
         }
 
@@ -56,8 +55,16 @@ class ReviewController extends Controller
         // Cek pesanan milik user dan statusnya selesai
         $pesanan = Pesanan::where('id', $request->pesanan_id)
             ->where('user_id', Auth::id())
-            ->where('status', 'selesai')
+            ->whereRaw('LOWER(status_pesanan) = ?', ['selesai'])
             ->firstOrFail();
+
+        $hasProductInOrder = $pesanan->detailPesanans()
+            ->where('produk_id', $request->produk_id)
+            ->exists();
+
+        if (! $hasProductInOrder) {
+            abort(404);
+        }
 
         // Cek duplikat review
         $exists = Review::where('pesanan_id', $request->pesanan_id)
@@ -87,7 +94,7 @@ class ReviewController extends Controller
             'foto'       => !empty($fotoPaths) ? $fotoPaths : null,
         ]);
 
-        return redirect()->route('pesanan.index')
+        return redirect()->route('riwayat.index')
             ->with('success', 'Terima kasih! Review Anda berhasil disimpan.');
     }
 

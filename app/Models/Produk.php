@@ -13,6 +13,11 @@ class Produk extends Model
 
     public function ulasans()
     {
-        return $this->hasMany(Ulasan::class);
+        return $this->hasMany(Review::class);
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
     }
 }
