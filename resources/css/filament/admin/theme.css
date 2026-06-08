@@ -1,0 +1,105 @@
+@import '../../../../vendor/filament/filament/resources/css/theme.css';
+
+@source '../../../../app/Filament/**/*';
+@source '../../../../resources/views/filament/**/*';
+
+:root {
+    --primary: #0F5132;
+    --primary-dark: #0A3A24;
+    --accent: #2ECC71;
+}
+
+/* Custom Sidebar Style */
+.fi-sidebar {
+    background-color: var(--primary) !important;
+    border-right: none !important;
+    box-shadow: 18px 0 40px rgba(15, 81, 50, 0.14) !important;
+}
+
+.fi-sidebar-header {
+    background-color: var(--primary) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    min-height: 92px !important;
+    padding: 0 20px 24px 20px !important;
+    display: flex !important;
+    align-items: flex-end !important;
+}
+
+.fi-sidebar-nav {
+    padding: 24px 16px 24px 16px !important;
+}
+
+/* Reset and clean up item button */
+.fi-sidebar-item-btn {
+    border-radius: 12px !important;
+    background: transparent !important;
+    padding: 10px 14px !important;
+    box-shadow: none !important;
+    border: none !important;
+    outline: none !important;
+    --tw-ring-shadow: 0 0 #0000 !important;
+    --tw-ring-offset-shadow: 0 0 #0000 !important;
+    transition: all 0.2s ease-in-out !important;
+    margin-bottom: 4px !important;
+}
+
+.fi-sidebar-item.fi-active .fi-sidebar-item-btn {
+    background-color: rgba(255, 255, 255, 0.15) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
+}
+
+.fi-sidebar-item-btn:hover {
+    background-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+.fi-sidebar-item-icon {
+    color: rgba(255, 255, 255, 0.7) !important;
+    width: 22px !important;
+    height: 22px !important;
+    transition: color 0.2s ease-in-out !important;
+}
+
+.fi-sidebar-item-label {
+    color: rgba(255, 255, 255, 0.8) !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    transition: color 0.2s ease-in-out, font-weight 0.2s ease-in-out !important;
+}
+
+.fi-sidebar-item.fi-active .fi-sidebar-item-icon {
+    color: var(--accent) !important;
+}
+
+.fi-sidebar-item.fi-active .fi-sidebar-item-label {
+    color: #ffffff !important;
+    font-weight: 600 !important;
+}
+
+.fi-sidebar-group-label {
+    color: rgba(255, 255, 255, 0.4) !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    margin-top: 20px !important;
+    margin-bottom: 8px !important;
+    padding-left: 14px !important;
+}
+
+/* Force topbar border */
+.fi-topbar {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
+    background-color: #ffffff !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02) !important;
+}
+
+/* Hide borders and use soft shadows for all widgets in dashboard */
+.fi-wi-stats-overview-stat,
+.fi-wi-chart,
+.fi-ta,
+.fi-section {
+    border: none !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03), 0 1px 3px rgba(0, 0, 0, 0.02) !important;
+    border-radius: 1rem !important;
+    background: #ffffff !important;
+}

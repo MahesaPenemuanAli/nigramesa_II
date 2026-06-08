@@ -18,5 +18,17 @@
     </div>
 </div>
 
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const toggleBtn = document.getElementById('sidebarToggle');
+        const root = document.querySelector('.admin-root');
+        
+        if (toggleBtn && root) {
+            toggleBtn.addEventListener('click', () => {
+                root.classList.toggle('sidebar-closed');
+            });
+        }
+    });
+</script>
 </body>
 </html>

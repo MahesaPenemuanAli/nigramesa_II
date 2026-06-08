@@ -23,8 +23,8 @@
                 <div class="metric-icon">OP</div>
                 <div>
                     <div class="metric-label">Total Pesanan</div>
-                    <div class="metric-value">1.254</div>
-                    <div class="metric-note">+12% bulan ini</div>
+                    <div class="metric-value">{{ number_format($totalPesanan ?? 0, 0, ',', '.') }}</div>
+                    <div class="metric-note">Pesanan tercatat</div>
                 </div>
             </div>
         </x-admin.card>
@@ -33,8 +33,8 @@
                 <div class="metric-icon">PL</div>
                 <div>
                     <div class="metric-label">Total Pelanggan</div>
-                    <div class="metric-value">8.420</div>
-                    <div class="metric-note">284 pelanggan baru</div>
+                    <div class="metric-value">{{ number_format($totalPelanggan ?? 0, 0, ',', '.') }}</div>
+                    <div class="metric-note">Akun terdaftar</div>
                 </div>
             </div>
         </x-admin.card>
@@ -43,8 +43,8 @@
                 <div class="metric-icon">RP</div>
                 <div>
                     <div class="metric-label">Total Pendapatan</div>
-                    <div class="metric-value">Rp124,5 jt</div>
-                    <div class="metric-note">Margin stabil</div>
+                    <div class="metric-value">Rp {{ number_format($totalPendapatan ?? 0, 0, ',', '.') }}</div>
+                    <div class="metric-note">Dari pesanan valid</div>
                 </div>
             </div>
         </x-admin.card>
@@ -53,8 +53,8 @@
                 <div class="metric-icon">PR</div>
                 <div>
                     <div class="metric-label">Total Produk</div>
-                    <div class="metric-value">320</div>
-                    <div class="metric-note">18 stok menipis</div>
+                    <div class="metric-value">{{ number_format($totalProduk ?? 0, 0, ',', '.') }}</div>
+                    <div class="metric-note">Dalam katalog</div>
                 </div>
             </div>
         </x-admin.card>
@@ -81,27 +81,30 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @forelse($pesananTerbaru ?? [] as $pesanan)
                             <tr>
-                                <td>#NG-1001</td>
-                                <td>Budi Santoso</td>
-                                <td>Rp 150.000</td>
-                                <td><x-admin.badge type="success">Dikirim</x-admin.badge></td>
-                                <td>1 Jun 2026</td>
+                                <td>#NG-{{ $pesanan->id }}</td>
+                                <td>{{ $pesanan->user->name ?? 'Tamu' }}</td>
+                                <td>Rp {{ number_format($pesanan->total_harga, 0, ',', '.') }}</td>
+                                <td>
+                                    @php
+                                        $type = match($pesanan->status_pesanan) {
+                                            'dikirim' => 'success',
+                                            'diproses' => 'info',
+                                            'pending' => 'warning',
+                                            'dibatalkan' => 'danger',
+                                            default => 'default'
+                                        };
+                                    @endphp
+                                    <x-admin.badge type="{{ $type }}">{{ ucfirst($pesanan->status_pesanan) }}</x-admin.badge>
+                                </td>
+                                <td>{{ $pesanan->created_at->format('d M Y') }}</td>
                             </tr>
+                            @empty
                             <tr>
-                                <td>#NG-1002</td>
-                                <td>Sri Lestari</td>
-                                <td>Rp 420.000</td>
-                                <td><x-admin.badge type="info">Diproses</x-admin.badge></td>
-                                <td>2 Jun 2026</td>
+                                <td colspan="5" style="text-align: center;">Belum ada pesanan terbaru.</td>
                             </tr>
-                            <tr>
-                                <td>#NG-1003</td>
-                                <td>Raka Wijaya</td>
-                                <td>Rp 95.000</td>
-                                <td><x-admin.badge type="warning">Menunggu</x-admin.badge></td>
-                                <td>3 Jun 2026</td>
-                            </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
@@ -111,44 +114,33 @@
         <div class="page-stack">
             <x-admin.card title="Produk Terlaris">
                 <ul class="simple-list">
+                    @forelse($produkTerlaris ?? [] as $item)
                     <li>
                         <div class="flex items-center gap-3">
                             <div class="product-thumb"></div>
                             <div>
-                                <strong>Pupuk Organik Premium</strong>
-                                <div class="text-sm text-muted">Terjual 1.200</div>
+                                <strong>{{ $item->produk->nama_produk ?? 'Produk Dihapus' }}</strong>
+                                <div class="text-sm text-muted">Terjual {{ $item->total_terjual }}</div>
                             </div>
                         </div>
-                        <strong>Rp 35.000</strong>
+                        <strong>Rp {{ number_format($item->produk->harga ?? 0, 0, ',', '.') }}</strong>
                     </li>
-                    <li>
-                        <div class="flex items-center gap-3">
-                            <div class="product-thumb"></div>
-                            <div>
-                                <strong>Benih Cabai Hibrida</strong>
-                                <div class="text-sm text-muted">Terjual 870</div>
-                            </div>
-                        </div>
-                        <strong>Rp 18.500</strong>
-                    </li>
-                    <li>
-                        <div class="flex items-center gap-3">
-                            <div class="product-thumb"></div>
-                            <div>
-                                <strong>Media Tanam Subur</strong>
-                                <div class="text-sm text-muted">Terjual 640</div>
-                            </div>
-                        </div>
-                        <strong>Rp 22.000</strong>
-                    </li>
+                    @empty
+                    <li><span class="text-muted">Belum ada data penjualan.</span></li>
+                    @endforelse
                 </ul>
             </x-admin.card>
 
             <x-admin.card title="Peringatan Stok Menipis">
                 <ul class="simple-list">
-                    <li><span>Pupuk NPK 5kg</span><x-admin.badge type="warning">Stok 3</x-admin.badge></li>
-                    <li><span>Semprotan Manual</span><x-admin.badge type="warning">Stok 5</x-admin.badge></li>
-                    <li><span>Benih Kangkung</span><x-admin.badge type="danger">Stok 1</x-admin.badge></li>
+                    @forelse($stokMenipis ?? [] as $produk)
+                    <li>
+                        <span>{{ $produk->nama_produk }}</span>
+                        <x-admin.badge type="{{ $produk->stok == 0 ? 'danger' : 'warning' }}">Stok {{ $produk->stok }}</x-admin.badge>
+                    </li>
+                    @empty
+                    <li><span class="text-muted">Stok produk aman.</span></li>
+                    @endforelse
                 </ul>
             </x-admin.card>
 
@@ -167,10 +159,10 @@
         new Chart(salesChart, {
             type: 'line',
             data: {
-                labels: ['1 Jun', '5 Jun', '10 Jun', '15 Jun', '20 Jun', '25 Jun', '30 Jun'],
+                labels: {!! json_encode($salesLabels ?? ['1 Jun', '5 Jun', '10 Jun', '15 Jun', '20 Jun', '25 Jun', '30 Jun']) !!},
                 datasets: [{
                     label: 'Penjualan',
-                    data: [120, 150, 138, 185, 176, 220, 248],
+                    data: {!! json_encode($salesData ?? [120, 150, 138, 185, 176, 220, 248]) !!},
                     borderColor: '#198754',
                     backgroundColor: 'rgba(46, 204, 113, 0.16)',
                     fill: true,
@@ -198,7 +190,7 @@
             data: {
                 labels: ['Dikirim', 'Diproses', 'Menunggu', 'Dibatalkan'],
                 datasets: [{
-                    data: [48, 27, 18, 7],
+                    data: {!! json_encode($chartData ?? [48, 27, 18, 7]) !!},
                     backgroundColor: ['#0F5132', '#198754', '#F59E0B', '#DC2626'],
                     borderWidth: 0
                 }]
