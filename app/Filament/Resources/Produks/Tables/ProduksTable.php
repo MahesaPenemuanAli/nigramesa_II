@@ -16,6 +16,7 @@ class ProduksTable
         return $table
             ->columns([
                 ImageColumn::make('gambar')
+                    ->disk('public')
                     ->circular(),
                 TextColumn::make('nama_produk')
                     ->searchable()
