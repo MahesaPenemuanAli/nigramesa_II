@@ -75,21 +75,7 @@
                     <div class="bg-white/90 backdrop-blur-xl rounded-[2.5rem] shadow-2xl p-6 md:p-8 border border-emerald-100/50 flex flex-col md:flex-row items-center gap-8 group hover:border-emerald-300 transition-colors">
                         <!-- Image Badge -->
                         <div class="w-full md:w-1/3 aspect-video md:aspect-auto md:h-48 rounded-3xl overflow-hidden relative shadow-inner shrink-0 bg-emerald-900">
-                            <img src="{{ gambar_url($videoSorotanDashboard->cover_gambar, (preg_match('/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([A-Za-z0-9_-]{11})/', $videoSorotanDashboard->link_youtube, $matches) ? 'https://img.youtube.com/vi/' . $matches[1] . '/hqdefault.jpg' : 'https://placehold.co/800x450/064e3b/ffffff?font=montserrat&text=' . urlencode($videoSorotanDashboard->judul))) }}" alt="Video Edukasi" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700">
-                            <div class="absolute top-4 left-4 bg-emerald-600/90 backdrop-blur-sm text-white px-4 py-2 rounded-xl text-xs font-black uppercase tracking-widest shadow-lg flex items-center gap-2">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
-                                VIDEO TERBARU
-                            </div>
-                            <div class="absolute bottom-4 right-4 bg-black/70 text-white px-3 py-1.5 rounded-xl text-xs font-black tracking-wider shadow-lg">
-                                {{ $videoSorotanDashboard->durasi }}
-                            </div>
-                        </div>
-
-                        <!-- Content -->
-                        <div class="flex-1 flex flex-col">
-                            <div class="flex items-center gap-2 text-xs font-bold text-emerald-700 uppercase tracking-widest mb-3 flex-wrap">
-                                <span class="bg-emerald-100/50 px-3 py-1.5 rounded-lg text-emerald-800 border border-emerald-200">Koleksi Video Pembelajaran</span>
-                                <span>&bull;</span>
+                            <img src="{{ gambar_url($videoSorotanDashboard->cover_gambar, (preg_match('/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([A-Za-z0-9_-]{11})/', $videoSorotanDashboard->link_youtube, $matches) ? 'https://img.youtube.com/vi/' . $matches[1] . '/hqdefault.jpg' : asset('images/placeholder.png');</span>
                                 <span>Oleh {{ $videoSorotanDashboard->pemateri }}</span>
                                 <span>&bull;</span>
                                 <span>{{ $videoSorotanDashboard->kategori }}</span>
@@ -192,7 +178,7 @@
                     @forelse($produks as $produk)
                         <a href="{{ route('katalog.show', $produk->id) }}" class="group bg-white rounded-3xl shadow-sm hover:shadow-2xl transition-all duration-300 border border-emerald-50 overflow-hidden flex flex-col h-full transform hover:-translate-y-2">
                             <div class="w-full aspect-[4/3] bg-emerald-50 relative overflow-hidden">
-                                <img src="{{ gambar_url($produk->gambar, 'https://placehold.co/600x450/ecfdf5/064e3b?text=' . urlencode($produk->nama_produk)) }}" class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-700">
+                                <img src="{{ gambar_url($produk->gambar)) }}" class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-700">
                                 <div class="absolute inset-0 bg-emerald-900/0 group-hover:bg-emerald-900/10 transition-colors"></div>
                                 <div class="absolute top-4 left-4 bg-white/95 backdrop-blur-md px-3 py-1.5 rounded-lg text-\[10px\] font-black text-emerald-800 uppercase tracking-widest shadow-sm">
                                     {{ $produk->kategori }}
@@ -232,7 +218,7 @@
                     @forelse($tanamans as $tanaman)
                         <a href="{{ route('perawatan.show', $tanaman->id) }}" class="bg-white rounded-[2.5rem] p-5 shadow-sm hover:shadow-2xl transition-all duration-300 border border-emerald-50 flex flex-col group h-full transform hover:-translate-y-2">
                             <div class="w-full aspect-[4/3] rounded-3xl overflow-hidden bg-emerald-50 relative mb-6 shadow-inner">
-                                <img src="{{ gambar_url($tanaman->gambar, 'https://placehold.co/600x450/ecfdf5/064e3b?text=' . urlencode($tanaman->nama_tanaman)) }}" class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-700">
+                                <img src="{{ gambar_url($tanaman->gambar)) }}" class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-700">
                             </div>
                             <div class="px-3 flex flex-col flex-1">
                                 <span class="text-xs font-black text-amber-700 bg-amber-50 px-3 py-1.5 rounded-lg uppercase tracking-widest w-max mb-4 border border-amber-100/50">{{ $tanaman->kategori }}</span>
@@ -285,7 +271,7 @@
                         <a href="{{ route('perpustakaan.show', $literatur->id) }}" class="bg-white rounded-3xl shadow-sm hover:shadow-xl border border-emerald-50 p-5 flex items-center gap-5 group transition-all duration-300 hover:border-indigo-100 transform hover:-translate-y-1">
                             <!-- Book Cover -->
                             <div class="w-24 lg:w-28 aspect-[3/4] bg-emerald-50 rounded-2xl shadow-inner overflow-hidden shrink-0 relative">
-                                <img src="{{ gambar_url($literatur->cover_gambar, 'https://placehold.co/300x400/ecfdf5/6366f1?font=montserrat&text=' . urlencode($literatur->tipe)) }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                <img src="{{ gambar_url($literatur->cover_gambar)) }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                             </div>
 
                             <!-- Book Info -->
@@ -325,7 +311,7 @@
                     <!-- Berita Card 1 -->
                     <a href="#" class="bg-white rounded-[2.5rem] shadow-sm hover:shadow-2xl transition-all duration-300 border border-emerald-50 overflow-hidden flex flex-col group h-full transform hover:-translate-y-2">
                         <div class="w-full h-52 bg-emerald-100 relative overflow-hidden">
-                            <img src="https://placehold.co/600x400/064e3b/10b981?font=montserrat&text=Smart+Farming" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                            <img src="{{ asset('images/placeholder.png') }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                             <div class="absolute top-4 left-4 bg-teal-500 text-white px-3 py-1.5 rounded-lg text-xs font-black uppercase tracking-widest shadow-md">Teknologi</div>
                         </div>
                         <div class="p-6 flex flex-col flex-1">
@@ -339,7 +325,7 @@
                     <!-- Berita Card 2 -->
                     <a href="#" class="bg-white rounded-[2.5rem] shadow-sm hover:shadow-2xl transition-all duration-300 border border-emerald-50 overflow-hidden flex flex-col group h-full transform hover:-translate-y-2">
                         <div class="w-full h-52 bg-emerald-100 relative overflow-hidden">
-                            <img src="https://placehold.co/600x400/0f766e/14b8a6?font=montserrat&text=Urban+Farming" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                            <img src="{{ asset('images/placeholder.png') }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                             <div class="absolute top-4 left-4 bg-teal-500 text-white px-3 py-1.5 rounded-lg text-xs font-black uppercase tracking-widest shadow-md">Lingkungan</div>
                         </div>
                         <div class="p-6 flex flex-col flex-1">
@@ -353,7 +339,7 @@
                     <!-- Berita Card 3 -->
                     <a href="#" class="bg-white rounded-[2.5rem] shadow-sm hover:shadow-2xl transition-all duration-300 border border-emerald-50 overflow-hidden flex flex-col group h-full transform hover:-translate-y-2">
                         <div class="w-full h-52 bg-emerald-100 relative overflow-hidden">
-                            <img src="https://placehold.co/600x400/047857/34d399?font=montserrat&text=Pupuk+Organik" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                            <img src="{{ asset('images/placeholder.png') }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                             <div class="absolute top-4 left-4 bg-teal-500 text-white px-3 py-1.5 rounded-lg text-xs font-black uppercase tracking-widest shadow-md">Tips & Trik</div>
                         </div>
                         <div class="p-6 flex flex-col flex-1">

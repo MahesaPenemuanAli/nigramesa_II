@@ -111,7 +111,7 @@
                                                 }
                                             @endphp
                                             <img
-                                                src="{{ gambar_url($rekomendasi->cover_gambar, $thumbnailUrl ?: 'https://placehold.co/640x360/0f172a/ffffff?font=montserrat&text=' . urlencode($rekomendasi->judul)) }}"
+                                                src="{{ gambar_url($rekomendasi->cover_gambar, $thumbnailUrl) }}"
                                                 alt="{{ $rekomendasi->judul }}"
                                                 class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
                                             >

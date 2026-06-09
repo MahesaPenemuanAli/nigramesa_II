@@ -70,7 +70,7 @@
                     <div class="w-full lg:w-1/2 relative group">
                         <div class="relative w-full aspect-square md:aspect-[4/3] rounded-[2.5rem] overflow-hidden shadow-2xl border-8 border-white transform lg:rotate-2 hover:rotate-0 transition-transform duration-700">
                             <!-- Placeholder Nature / Botanic Illustration -->
-                            <img src="https://placehold.co/1000x800/10b981/ffffff?font=montserrat&text=Ilustrasi+Alam+Nigramesa" alt="Ilustrasi Misi" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-out">
+                            <img src="{{ asset('images/placeholder.png') }}" alt="Ilustrasi Misi" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-out">
                             <div class="absolute inset-0 bg-gradient-to-t from-emerald-900/60 to-transparent"></div>
                             
                             <div class="absolute bottom-8 left-8 right-8 text-white font-bold leading-snug drop-shadow-md text-lg">

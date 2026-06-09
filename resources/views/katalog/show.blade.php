@@ -22,7 +22,7 @@
                     
                     <!-- Left: Img -->
                     <div class="w-full lg:w-1/2 bg-gray-100 relative group">
-                        <img src="{{ gambar_url($produk->gambar, 'https://placehold.co/600x400/e2e8f0/475569?text=' . urlencode($produk->nama_produk)) }}" alt="{{ $produk->nama_produk }}" class="w-full h-full object-cover">
+                        <img src="{{ gambar_url($produk->gambar)) }}" alt="{{ $produk->nama_produk }}" class="w-full h-full object-cover">
                     </div>
 
                     <!-- Right: Info -->

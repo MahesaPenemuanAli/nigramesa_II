@@ -36,7 +36,7 @@
                         <div class="bg-white rounded-[2.5rem] shadow-md hover:shadow-2xl transition-all duration-300 border border-gray-100 overflow-hidden flex flex-col group relative">
                             <!-- Hero Banner Thumbnail -->
                             <div class="relative w-full aspect-video bg-gray-900 overflow-hidden shadow-inner">
-                                <img src="{{ gambar_url($webinar->cover_gambar, 'https://placehold.co/800x450/111827/ffffff?font=montserrat&text=' . urlencode($webinar->judul)) }}" alt="Cover Webinar" class="w-full h-full object-cover opacity-80 group-hover:scale-110 transition-transform duration-1000 ease-out">
+                                <img src="{{ gambar_url($webinar->cover_gambar)) }}" alt="Cover Webinar" class="w-full h-full object-cover opacity-80 group-hover:scale-110 transition-transform duration-1000 ease-out">
                                 <div class="absolute inset-0 bg-gradient-to-t from-gray-900/60 to-transparent"></div>
                                 <div class="absolute top-5 left-5 bg-red-600 text-white px-4 py-2 rounded-xl text-xs font-black uppercase tracking-widest shadow-xl flex items-center gap-2 border-[1.5px] border-red-400/50 backdrop-blur-sm">
                                     <div class="w-2.5 h-2.5 bg-white rounded-full animate-pulse shadow-glow"></div>
@@ -99,7 +99,7 @@
                         <div class="bg-white rounded-[2.5rem] shadow-sm hover:shadow-[0_12px_40px_rgba(0,0,0,0.06)] transition-all duration-300 border border-gray-100 overflow-hidden flex flex-col group border-b-4 border-b-emerald-500/0 hover:border-b-emerald-500">
                             <!-- Banner -->
                             <div class="relative w-full aspect-[5/3] bg-gray-100 overflow-hidden shadow-inner">
-                                <img src="{{ gambar_url($webinar->cover_gambar, 'https://placehold.co/800x480/f3f4f6/475569?font=montserrat&text=' . urlencode($webinar->judul)) }}" alt="Cover Jadwal" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-700">
+                                <img src="{{ gambar_url($webinar->cover_gambar)) }}" alt="Cover Jadwal" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-700">
                                 <div class="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors"></div>
                                 <!-- Tanggal Overlay -->
                                 <div class="absolute top-4 left-4 flex items-center gap-2 text-[11px] font-black text-emerald-700 bg-white/95 backdrop-blur shadow-sm px-3.5 py-2 rounded-xl uppercase tracking-widest border border-white">

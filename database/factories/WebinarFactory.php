@@ -49,7 +49,7 @@ class WebinarFactory extends Factory
             'judul' => $this->faker->randomElement($judul_list),
             'deskripsi' => $this->faker->paragraphs(3, true),
             'pembicara' => $this->faker->name . ($this->faker->boolean ? ', S.P., M.Si.' : ', Ph.D.'),
-            'cover_gambar' => 'https://placehold.co/800x450/10b981/ffffff?font=montserrat&text=Webinar+Nigramesa',
+            'cover_gambar' => null,
             'waktu_mulai' => $waktu_mulai,
             'waktu_selesai' => $waktu_selesai,
             'status' => $status,

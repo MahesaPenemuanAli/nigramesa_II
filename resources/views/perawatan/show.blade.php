@@ -2,7 +2,7 @@
     <div class="bg-gray-50 min-h-screen pb-20">
         <!-- Banner Image Full Width -->
         <div class="w-full h-[40vh] md:h-[60vh] relative group overflow-hidden">
-            <img src="{{ gambar_url($tanaman->gambar, 'https://placehold.co/1920x800/10b981/ffffff?text=' . urlencode($tanaman->nama_tanaman)) }}" alt="{{ $tanaman->nama_tanaman }}" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-1000 ease-out">
+            <img src="{{ gambar_url($tanaman->gambar)) }}" alt="{{ $tanaman->nama_tanaman }}" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-1000 ease-out">
             <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/40 to-transparent"></div>
             
             <!-- Breadcrumb & Title inside Banner -->

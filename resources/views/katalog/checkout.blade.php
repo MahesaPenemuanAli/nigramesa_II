@@ -96,7 +96,7 @@
                         <div class="summary-list">
                             @foreach($keranjangs as $item)
                                 <div class="summary-item">
-                                    <img src="{{ gambar_url($item->produk->gambar, 'https://placehold.co/600x400/e2e8f0/475569?text=' . urlencode($item->produk->nama_produk)) }}" alt="{{ $item->produk->nama_produk }}">
+                                    <img src="{{ gambar_url($item->produk->gambar)) }}" alt="{{ $item->produk->nama_produk }}">
                                     <div>
                                         <strong>{{ $item->produk->nama_produk }}</strong>
                                         <span>Qty {{ $item->jumlah }}</span>

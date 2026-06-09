@@ -17,7 +17,7 @@
                     <!-- Kiri: Cover -->
                     <div class="w-full md:w-1/3 flex flex-col items-center shrink-0">
                         <div class="w-full aspect-[3/4] bg-gray-100 rounded-3xl overflow-hidden shadow-2xl mb-10 relative border border-gray-200 group">
-                            <img src="{{ gambar_url($literatur->cover_gambar, 'https://placehold.co/400x600/f3f4f6/475569?font=montserrat&text=' . urlencode($literatur->judul)) }}" alt="Cover Buku" class="w-full h-full object-cover">
+                            <img src="{{ gambar_url($literatur->cover_gambar)) }}" alt="Cover Buku" class="w-full h-full object-cover">
                             <div class="absolute inset-0 ring-1 ring-inset ring-black/10 rounded-3xl z-10 pointer-events-none"></div>
                             
                             <!-- Hover glass effect -->

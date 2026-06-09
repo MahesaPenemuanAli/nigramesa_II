@@ -3,8 +3,7 @@
         $videoThumbnail = function ($video, $fallbackText = null) {
             if (!empty($video->cover_gambar)) {
                 return gambar_url(
-                    $video->cover_gambar,
-                    'https://placehold.co/800x450/0f172a/ffffff?font=montserrat&text=' . urlencode($fallbackText ?: $video->judul)
+                    $video->cover_gambar)
                 );
             }
 
@@ -25,7 +24,7 @@
                 return "https://img.youtube.com/vi/{$videoId}/hqdefault.jpg";
             }
 
-            return 'https://placehold.co/800x450/0f172a/ffffff?font=montserrat&text=' . urlencode($fallbackText ?: $video->judul);
+            return asset('images/placeholder.png');
         };
     @endphp
 

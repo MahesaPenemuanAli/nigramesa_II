@@ -62,7 +62,7 @@
                             @foreach($produks as $produk)
                                 <div class="bg-white rounded-2xl shadow-sm border border-gray-50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden group flex flex-col relative">
                                     <div class="relative h-36 lg:h-48 overflow-hidden bg-gray-100">
-                                        <img src="{{ gambar_url($produk->gambar, 'https://placehold.co/600x400/e2e8f0/475569?text=' . urlencode($produk->nama_produk)) }}" alt="{{ $produk->nama_produk }}" class="w-full h-36 lg:h-48 object-cover group-hover:scale-105 transition-transform duration-700">
+                                        <img src="{{ gambar_url($produk->gambar)) }}" alt="{{ $produk->nama_produk }}" class="w-full h-36 lg:h-48 object-cover group-hover:scale-105 transition-transform duration-700">
                                         <div class="absolute top-2 left-2 lg:top-3 lg:left-3">
                                             <span class="px-2 lg:px-3 py-1 bg-white/95 backdrop-blur-sm text-[10px] lg:text-xs font-bold text-gray-800 rounded-lg shadow-sm border border-gray-100">
                                                 {{ $produk->kategori }}

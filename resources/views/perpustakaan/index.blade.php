@@ -61,7 +61,7 @@
                                 
                                 <!-- Kiri Kartu: Panel Cover -->
                                 <div class="w-full sm:w-40 md:w-56 shrink-0 bg-gray-100 relative shadow-inner">
-                                    <img src="{{ gambar_url($literatur->cover_gambar, 'https://placehold.co/300x450/f3f4f6/475569?text=' . urlencode($literatur->judul)) }}" alt="Cover" class="w-full h-56 sm:h-full object-cover">
+                                    <img src="{{ gambar_url($literatur->cover_gambar)) }}" alt="Cover" class="w-full h-56 sm:h-full object-cover">
                                     <div class="absolute inset-0 bg-gradient-to-r from-transparent to-black/5 opacity-50"></div>
                                 </div>
 

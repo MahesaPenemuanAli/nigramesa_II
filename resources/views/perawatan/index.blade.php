@@ -41,7 +41,7 @@
                 @forelse($tanamans as $tanaman)
                     <div class="bg-white rounded-[2rem] shadow-sm hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-all duration-300 border border-gray-100 overflow-hidden flex flex-col group relative">
                         <div class="relative h-64 overflow-hidden bg-gray-100">
-                            <img src="{{ gambar_url($tanaman->gambar, 'https://placehold.co/800x600/10b981/ffffff?text=' . urlencode($tanaman->nama_tanaman)) }}" alt="{{ $tanaman->nama_tanaman }}" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out">
+                            <img src="{{ gambar_url($tanaman->gambar)) }}" alt="{{ $tanaman->nama_tanaman }}" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out">
                             <div class="absolute top-4 right-4 backdrop-blur-md bg-white/90 px-4 py-1.5 rounded-full text-xs font-black text-emerald-700 shadow-sm uppercase tracking-wide">
                                 {{ $tanaman->kategori }}
                             </div>

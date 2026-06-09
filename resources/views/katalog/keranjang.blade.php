@@ -19,7 +19,7 @@
 
             @if($keranjangs->isEmpty())
             <div class="bg-white rounded-[2rem] p-16 text-center shadow-sm border border-gray-100 flex flex-col items-center justify-center min-h-[50vh]">
-                <img src="https://placehold.co/400x300/e2e8f0/94a3b8?text=Keranjang+Kosong" class="w-64 h-auto mb-8 rounded-2xl grayscale opacity-50" alt="Empty Cart">
+                <img src="{{ asset('images/placeholder.png') }}" class="w-64 h-auto mb-8 rounded-2xl grayscale opacity-50" alt="Empty Cart">
                 <h2 class="text-2xl font-black text-gray-800 mb-2">Keranjang Anda Masih Kosong</h2>
                 <p class="text-gray-500 font-medium mb-8">Wah, belum ada produk yang Anda minati. Temukan pasokan agrikultur terbaik sekarang!</p>
                 <a href="{{ route('katalog') }}" class="px-8 py-4 bg-emerald-600 hover:bg-emerald-700 text-white font-black rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 group">
@@ -44,7 +44,7 @@
                             <input type="checkbox" name="selectedItems[]" value="{{ $item->id }}" class="cart-checkbox item-checkbox w-5 h-5 text-emerald-600 rounded border-gray-300 focus:ring-emerald-500 cursor-pointer" data-harga="{{ $item->produk->harga }}" onchange="window.updateSummary()">
                         </div>
                         <div class="w-20 h-20 sm:w-32 sm:h-32 bg-gray-100 rounded-2xl overflow-hidden shrink-0">
-                            <img src="{{ gambar_url($item->produk->gambar, 'https://placehold.co/400x400/e2e8f0/475569?text='.urlencode($item->produk->nama_produk)) }}" class="w-full h-full object-cover">
+                            <img src="{{ gambar_url($item->produk->gambar)) }}" class="w-full h-full object-cover">
                         </div>
                         <div class="flex-1 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                             <div>
