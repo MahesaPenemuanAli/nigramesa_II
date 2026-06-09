@@ -17,16 +17,6 @@ if (!function_exists('gambar_url')) {
             return $path;
         }
 
-        $path = ltrim($path, '/');
-
-        if (str_starts_with($path, 'storage/')) {
-            $path = substr($path, strlen('storage/'));
-        }
-
-        if (! \Illuminate\Support\Facades\Storage::disk('public')->exists($path)) {
-            return $fallback;
-        }
-
-        return url('uploads/' . $path);
+        return \Illuminate\Support\Facades\Storage::url($path);
     }
 }

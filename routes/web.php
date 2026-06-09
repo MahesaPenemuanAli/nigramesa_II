@@ -4,6 +4,22 @@ use App\Http\Controllers\EdukasiController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Response;
+
+// Fallback rute untuk melayani file storage secara langsung di shared hosting (seperti cPanel/Zenhosta)
+// Hal ini berguna jika symlink (php artisan storage:link) tidak dapat dibuat.
+Route::get('/storage/{path}', function ($path) {
+    if (str_contains($path, '..')) {
+        abort(403);
+    }
+    $filePath = storage_path('app/public/' . $path);
+    if (!File::exists($filePath)) {
+        abort(404);
+    }
+    $mimeType = File::mimeType($filePath);
+    return Response::make(File::get($filePath), 200, ['Content-Type' => $mimeType]);
+})->where('path', '.*');
 
 Route::get("/", function () {
     return view("welcome");

@@ -33,13 +33,11 @@ class LiteraturForm
                     ->image()
                     ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
                     ->maxSize(2048)
-                    ->disk('public')
                     ->directory('literatur-covers')
                     ->visibility('public'),
                 FileUpload::make('file_url')
                     ->label('File E-Book / PDF (Opsional)')
                     ->acceptedFileTypes(['application/pdf'])
-                    ->disk('public')
                     ->directory('literatur-files')
                     ->visibility('public'),
             ]);

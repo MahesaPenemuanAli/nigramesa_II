@@ -16,7 +16,7 @@ class LiteratursTable
         return $table
             ->columns([
                 ImageColumn::make('cover_gambar')
-                    ->disk('public'),
+
                 TextColumn::make('judul')
                     ->searchable()
                     ->sortable(),

@@ -44,7 +44,7 @@ class WebinarForm
                     ->columnSpanFull(),
                 FileUpload::make('cover_gambar')
                     ->image()
-                    ->disk('public')
+
                     ->directory('webinar-covers')
                     ->visibility('public')
                     ->columnSpanFull(),

@@ -18,7 +18,7 @@ class VideoPembelajaransTable
             ->columns([
                 ImageColumn::make('cover_gambar')
                     ->label('Cover')
-                    ->disk('public')
+
                     ->square(),
 
                 TextColumn::make('judul')

@@ -42,7 +42,7 @@ class TanamanForm
                     ->required(),
                 FileUpload::make('gambar')
                     ->image()
-                    ->disk('public')
+
                     ->directory('tanaman-images')
                     ->visibility('public'),
                 Textarea::make('deskripsi_singkat')

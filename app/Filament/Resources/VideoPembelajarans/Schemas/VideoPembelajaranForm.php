@@ -60,7 +60,7 @@ class VideoPembelajaranForm
                 FileUpload::make('cover_gambar')
                     ->label('Cover Gambar')
                     ->image()
-                    ->disk('public')
+
                     ->directory('video-pembelajaran-covers')
                     ->visibility('public')
                     ->helperText('Opsional. Jika dikosongkan, halaman publik akan memakai placeholder otomatis.')
