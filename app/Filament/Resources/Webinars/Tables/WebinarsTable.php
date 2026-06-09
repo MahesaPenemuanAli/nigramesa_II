@@ -15,7 +15,7 @@ class WebinarsTable
     {
         return $table
             ->columns([
-                ImageColumn::make('cover_gambar')
+                ImageColumn::make('cover_gambar'),
 
                 TextColumn::make('judul')
                     ->searchable()

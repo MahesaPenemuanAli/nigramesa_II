@@ -13,11 +13,11 @@ class ProdukSeeder extends Seeder
         Produk::factory()
             ->count(15)
             ->state(new Sequence(
-                ['nama_produk' => 'Pupuk Organik Cair', 'kategori' => 'Pupuk', 'harga' => 35000],
-                ['nama_produk' => 'Benih Tomat Super', 'kategori' => 'Benih', 'harga' => 15000],
-                ['nama_produk' => 'Pot Keramik Minimalis', 'kategori' => 'Pot', 'harga' => 65000],
-                ['nama_produk' => 'Sekop Kecil Taman', 'kategori' => 'Alat', 'harga' => 25000],
-                ['nama_produk' => 'Semprotan Air 1 Liter', 'kategori' => 'Alat', 'harga' => 22000],
+                ['nama_produk' => 'Pupuk Organik Cair', 'kategori' => 'Pupuk', 'harga' => 35000, 'gambar' => 'produks/pupuk.png'],
+                ['nama_produk' => 'Benih Tomat Super', 'kategori' => 'Benih', 'harga' => 15000, 'gambar' => 'produks/benih.png'],
+                ['nama_produk' => 'Pot Keramik Minimalis', 'kategori' => 'Pot', 'harga' => 65000, 'gambar' => 'produks/pot.png'],
+                ['nama_produk' => 'Sekop Kecil Taman', 'kategori' => 'Alat', 'harga' => 25000, 'gambar' => 'produks/sekop.png'],
+                ['nama_produk' => 'Semprotan Air 1 Liter', 'kategori' => 'Alat', 'harga' => 22000, 'gambar' => 'produks/semprotan.png'],
                 ['nama_produk' => 'Pupuk NPK Mutiara', 'kategori' => 'Pupuk', 'harga' => 45000],
                 ['nama_produk' => 'Benih Cabai Rawit Merah', 'kategori' => 'Benih', 'harga' => 12000],
                 ['nama_produk' => 'Pot Plastik Hitam 20cm', 'kategori' => 'Pot', 'harga' => 10000],
