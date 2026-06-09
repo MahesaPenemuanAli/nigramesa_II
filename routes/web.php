@@ -2,11 +2,20 @@
 
 use App\Http\Controllers\EdukasiController;
 use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Route;
 
 Route::get("/", function () {
     return view("welcome");
 });
+
+Route::get("/uploads/{path}", function (string $path) {
+    abort_if(str_contains($path, "..") || ! Storage::disk("public")->exists($path), 404);
+
+    return response()->file(Storage::disk("public")->path($path), [
+        "Cache-Control" => "public, max-age=31536000",
+    ]);
+})->where("path", ".*")->name("uploads.show");
 
 Route::get("/dashboard", [App\Http\Controllers\HomeController::class, "index"])
     ->middleware(["auth", "verified"])

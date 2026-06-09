@@ -38,6 +38,8 @@ class ProdukForm
                     ->maxValue(2147483647),
                 FileUpload::make('gambar')
                     ->image()
+                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                    ->maxSize(2048)
                     ->disk('public')
                     ->directory('produk-images')
                     ->visibility('public'),

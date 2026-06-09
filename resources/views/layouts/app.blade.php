@@ -29,7 +29,8 @@
 
             <!-- Page Content -->
             <main>
-                {{ $slot }}
+                {{ $slot ?? '' }}
+                @yield('content')
             </main>
 
             <!-- Global Footer -->
@@ -287,46 +288,5 @@
                 }
             }
             </script>
-
-                
-                <!-- Chat Window Pop-up Box -->
-                <div x-show="chatOpen" 
-                     x-transition:enter="transition ease-out duration-300 transform origin-bottom-right"
-                     x-transition:enter-start="opacity-0 scale-50 translate-y-10"
-                     x-transition:enter-end="opacity-100 scale-100 translate-y-0"
-                     x-transition:leave="transition ease-in duration-200 transform origin-bottom-right"
-                     x-transition:leave-start="opacity-100 scale-100 translate-y-0"
-                     x-transition:leave-end="opacity-0 scale-50 translate-y-10"
-                     @click.outside="chatOpen = false"
-                     class="absolute bottom-[4.5rem] right-0 w-[22rem] md:w-[24rem] bg-white rounded-[2rem] shadow-2xl shadow-emerald-900/10 border border-gray-100 overflow-hidden flex flex-col"
-                     style="height: 550px; display: none;">
-                    
-                    <!-- Chat Header -->
-                    <div class="bg-gradient-to-r from-emerald-600 to-emerald-800 px-6 py-5 flex justify-between items-center text-white relative">
-                        <!-- header pattern -->
-                        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/leaves-pattern.png')] opacity-10 mix-blend-overlay"></div>
-                        <div class="flex items-center gap-4 relative z-10">
-                            <div class="relative">
-                                <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-inner overflow-hidden border-2 border-emerald-400/50">
-                                    <img src="https://ui-avatars.com/api/?name=Ai&background=fff&color=10b981&bold=true" class="w-full h-full object-cover">
-                                </div>
-                                <div class="absolute bottom-0 right-0 w-3.5 h-3.5 bg-green-400 rounded-full border-[2.5px] border-emerald-800 shadow-sm animate-pulse"></div>
-                            </div>
-                            <div>
-                                <h3 class="font-black text-lg tracking-wide leading-none mb-1">NigraBot Bantuan</h3>
-                                <div class="flex items-center gap-1.5 text-xs text-emerald-100/90 font-bold">
-                                    <div class="w-1.5 h-1.5 bg-green-400 rounded-full"></div>
-                                    Sedang Online
-                                </div>
-                            </div>
-                        </div>
-                        <button @click="chatOpen = false" class="text-white/70 hover:text-white transition-transform hover:rotate-90 bg-black/10 hover:bg-black/20 p-2.5 rounded-full relative z-10">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
-                        </button>
-                    </div>
-
-                    <!-- Riwayat Riwayat Body -->
-                    <div class="flex-1 overflow-y-auto px-5 py-6 bg-[#f8fafc] flex flex-col gap-5">
-                        <div class="text-center text-xs font-bold text-gray-400 my-2">Bantuan Live Chat Nigramesa <br> Hari ini</div>
     </body>
 </html>

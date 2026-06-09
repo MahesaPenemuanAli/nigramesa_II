@@ -31,6 +31,8 @@ class LiteraturForm
                     ->required(),
                 FileUpload::make('cover_gambar')
                     ->image()
+                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                    ->maxSize(2048)
                     ->disk('public')
                     ->directory('literatur-covers')
                     ->visibility('public'),
